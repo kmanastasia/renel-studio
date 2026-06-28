@@ -595,50 +595,15 @@ body::before {
 }
 
 /* ---------- About ---------- */
-.about__grid {
-  display: grid;
-  gap: 3rem;
-}
-
-@media (min-width: 768px) {
-  .about__grid {
-    grid-template-columns: 5fr 7fr;
-    gap: 5rem;
-    align-items: start;
-  }
-}
-
-.about__portrait {
-  aspect-ratio: 4 / 5;
-  border-radius: 40% 10% 35% 15%;
-  background: linear-gradient(
-    145deg,
-    var(--terracotta),
-    var(--surface) 55%,
-    var(--gold-muted)
-  );
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  transform: rotate(-2deg);
-}
-
-.about__portrait::after {
-  content: "Karen Murata";
-  position: absolute;
-  bottom: 20px;
-  left: 22px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 0.02em;
-  color: rgba(240, 237, 230, 0.9);
+.about__text {
+  max-width: 640px;
 }
 
 .about__text p {
   font-size: var(--fs-body-lg);
   margin-bottom: 1.5rem;
   color: var(--text-primary);
+  line-height: 1.85;
 }
 
 .about__text p.muted {
@@ -646,20 +611,23 @@ body::before {
   font-size: var(--fs-body);
 }
 
-.about__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  margin-top: 2rem;
+.about__divider {
+  width: 2rem;
+  height: 1px;
+  background: var(--border);
+  margin: 2.5rem 0;
 }
 
-.about__tags span {
-  font-size: var(--fs-xs);
-  letter-spacing: 0.04em;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  color: var(--text-secondary);
+.about__sign {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, var(--gold) 0%, #e8c66a 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 2.5rem !important;
 }
 
 /* ---------- Business tiles ---------- */
