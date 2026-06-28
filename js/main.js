@@ -408,18 +408,22 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, message }),
         });
+        const text = await res.text();
         if (res.ok) {
           if (status) {
             status.textContent = "送信しました。ありがとうございます。近日中にご連絡いたします。";
           }
           form.reset();
         } else {
-          throw new Error("server error");
+          if (status) {
+            status.classList.add("is-error");
+            status.textContent = "[DEBUG] " + res.status + ": " + text;
+          }
         }
-      } catch {
+      } catch (err) {
         if (status) {
           status.classList.add("is-error");
-          status.textContent = "送信に失敗しました。時間をおいて再度お試しください。";
+          status.textContent = "[DEBUG] fetch error: " + err.message;
         }
       } finally {
         btn.disabled = false;
