@@ -417,10 +417,8 @@
         });
         const data = await res.json();
         if (data.success) {
-          if (status) {
-            status.textContent = "送信しました。ありがとうございます。近日中にご連絡いたします。";
-          }
           form.reset();
+          window.location.href = "https://renel-studio.com/thank-you";
         } else {
           throw new Error(data.message || "error");
         }
