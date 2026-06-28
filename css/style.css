@@ -722,6 +722,7 @@ body::before {
 }
 
 .biz-tile__jp {
+  font-family: var(--font-sans);
   font-size: var(--fs-small);
   color: var(--gold);
   margin-bottom: 0.8rem;
