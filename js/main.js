@@ -373,20 +373,21 @@
   }
 
   /* -----------------------------------------------------
-     9. Contact form (ダミー送信)
+     9. Contact form
   ----------------------------------------------------- */
   function initForm() {
     const form = document.getElementById("contactForm");
     if (!form) return;
     const status = document.getElementById("formStatus");
+    const btn = form.querySelector('[type="submit"]');
 
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      const name = form.querySelector("#name");
-      const email = form.querySelector("#email");
-      const message = form.querySelector("#message");
+      const name = form.querySelector("#name").value.trim();
+      const email = form.querySelector("#email").value.trim();
+      const message = form.querySelector("#message").value.trim();
 
-      if (!name.value.trim() || !email.value.trim() || !message.value.trim()) {
+      if (!name || !email || !message) {
         if (status) {
           status.classList.add("is-error");
           status.textContent = "すべての項目をご入力ください。";
@@ -394,12 +395,36 @@
         return;
       }
 
+      btn.disabled = true;
+      btn.textContent = "送信中…";
       if (status) {
         status.classList.remove("is-error");
-        status.textContent =
-          "送信しました（デモ表示）。ありがとうございます。折り返しご連絡します。";
+        status.textContent = "";
       }
-      form.reset();
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message }),
+        });
+        if (res.ok) {
+          if (status) {
+            status.textContent = "送信しました。ありがとうございます。近日中にご連絡いたします。";
+          }
+          form.reset();
+        } else {
+          throw new Error("server error");
+        }
+      } catch {
+        if (status) {
+          status.classList.add("is-error");
+          status.textContent = "送信に失敗しました。時間をおいて再度お試しください。";
+        }
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "送信する";
+      }
     });
   }
 
