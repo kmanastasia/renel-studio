@@ -491,9 +491,9 @@ body::before {
 }
 
 .hero-sub {
-  font-size: var(--fs-body-lg);
+  font-size: var(--fs-small);
   color: var(--text-secondary);
-  max-width: 480px;
+  max-width: 600px;
   margin-bottom: 2.5rem;
 }
 
