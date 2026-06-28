@@ -403,27 +403,31 @@
       }
 
       try {
-        const res = await fetch("/api/contact", {
+        const res = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, message }),
+          body: JSON.stringify({
+            access_key: "99cb4d7c-5f28-43e4-b7ae-c63b25426979",
+            subject: `[お問い合わせ] ${name} 様より`,
+            from_name: "Renel Studio",
+            name,
+            email,
+            message,
+          }),
         });
-        const text = await res.text();
-        if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
           if (status) {
             status.textContent = "送信しました。ありがとうございます。近日中にご連絡いたします。";
           }
           form.reset();
         } else {
-          if (status) {
-            status.classList.add("is-error");
-            status.textContent = "[DEBUG] " + res.status + ": " + text;
-          }
+          throw new Error(data.message || "error");
         }
       } catch (err) {
         if (status) {
           status.classList.add("is-error");
-          status.textContent = "[DEBUG] fetch error: " + err.message;
+          status.textContent = "送信に失敗しました。時間をおいて再度お試しください。";
         }
       } finally {
         btn.disabled = false;
