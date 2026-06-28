@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIFE TIMER v1.0.0</title>
+<!-- OGP / SNS -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="LIFE TIMER — 自由時間は、今も燃えている。">
+<meta property="og:description" content="睡眠・仕事を除いた、あなただけの本当の自由時間をリアルタイムカウントダウン。毎日を必死で生きるきっかけに。">
+<meta property="og:image" content="https://renel-studio.com/self-produced/life-timer/ogp.png">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LIFE TIMER — 自由時間は、今も燃えている。">
+<meta name="twitter:description" content="睡眠・仕事を除いた、あなただけの本当の自由時間をリアルタイムカウントダウン。">
+<meta name="twitter:image" content="https://renel-studio.com/self-produced/life-timer/ogp.png">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#080B14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LIFE TIMER">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#080B14;
+  --navy:#0D1B2A;
+  --cyan:#00F5FF;
+  --magenta:#FF2D78;
+  --green:#39FF14;
+  --amber:#FFB800;
+  --ghost:#E8F4F8;
+  --dim:#4A6FA5;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--void);
+  color:var(--ghost);
+  font-family:'Share Tech Mono',monospace;
+  overflow-x:hidden;
+  min-height:100vh;
+  position:relative;
+  image-rendering:pixelated;
+  -webkit-font-smoothing:none;
+}
+img,canvas{image-rendering:pixelated;}
+
+/* ===== Canvas layers ===== */
+#particle-canvas{
+  position:fixed;inset:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:5;
+}
+
+/* ===== Scanline overlay ===== */
+.scanline-overlay{
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:6;
+  overflow:hidden;
+}
+.scanline-overlay::before{
+  content:"";
+  position:absolute;
+  inset:-100% 0;
+  height:300%;
+  background:repeating-linear-gradient(
+    to bottom, transparent 0px, transparent 3px,
+    rgba(0,245,255,0.03) 3px, rgba(0,245,255,0.03) 4px
+  );
+  animation:scanline-move 8s linear infinite;
+}
+.scanline-overlay::after{
+  content:"";
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+}
+@keyframes scanline-move{
+  from{transform:translateY(0);}
+  to{transform:translateY(33.33%);}
+}
+
+/* ===== Boot screen ===== */
+#boot-screen{
+  position:fixed;inset:0;
+  z-index:50;
+  background:var(--void);
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:6vw;
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(11px,2.1vw,18px);
+  color:var(--green);
+  line-height:1.9;
+  cursor:pointer;
+}
+#boot-screen .boot-line{white-space:pre-wrap;}
+#boot-screen .warn{color:var(--magenta);}
+#boot-screen .prompt{
+  color:var(--cyan);
+  margin-top:1.4em;
+  animation:blink 1s step-end infinite;
+}
+.cursor-blk{
+  display:inline-block;width:0.6em;height:1.05em;
+  background:var(--green);vertical-align:-2px;
+  animation:blink 0.8s step-end infinite;
+}
+@keyframes blink{50%{opacity:0;}}
+
+/* ===== Header ===== */
+header{
+  position:relative;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px clamp(14px,4vw,40px);
+  border-bottom:2px solid var(--navy);
+  background:linear-gradient(180deg, rgba(13,27,42,0.6), transparent);
+}
+.brand{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(10px,1.8vw,15px);
+  color:var(--cyan);
+  letter-spacing:1px;
+  text-shadow:0 0 6px var(--cyan);
+  display:flex;align-items:center;gap:12px;
+}
+.led{
+  width:12px;height:12px;border-radius:2px;
+  background:var(--magenta);
+  box-shadow:0 0 8px var(--magenta);
+  animation:led-blink 1.6s step-end infinite;
+}
+@keyframes led-blink{0%,49%{opacity:1;}50%,100%{opacity:0.15;}}
+.header-actions{display:flex;gap:10px;align-items:center;}
+.sound-btn{
+  font-family:'Share Tech Mono',monospace;
+  background:transparent;
+  border:2px solid var(--dim);
+  color:var(--dim);
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:clamp(11px,1.6vw,14px);
+  letter-spacing:1px;
+  transition:all .15s;
+}
+.sound-btn.on{border-color:var(--green);color:var(--green);box-shadow:0 0 10px rgba(57,255,20,.4);}
+.sound-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.share-btn{border-color:var(--amber);color:var(--amber);}
+.share-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.share-menu{
+  position:absolute;right:0;top:calc(100% + 8px);
+  background:var(--navy);border:2px solid var(--amber);
+  border-radius:3px;z-index:200;min-width:180px;
+  display:none;flex-direction:column;overflow:hidden;
+}
+.share-menu.open{display:flex;}
+.share-menu button{
+  font-family:'Share Tech Mono',monospace;font-size:13px;
+  background:transparent;border:none;border-bottom:1px solid #16324a;
+  color:var(--ghost);padding:10px 16px;cursor:pointer;
+  text-align:left;letter-spacing:1px;transition:background .12s;
+}
+.share-menu button:last-child{border-bottom:none;}
+.share-menu button:hover{background:rgba(255,184,0,.12);color:var(--amber);}
+.share-wrap{position:relative;}
+
+.settings-actions{margin-top:20px;display:flex;justify-content:flex-end;}
+.save-btn{
+  font-family:'Share Tech Mono',monospace;
+  background:transparent;
+  border:2px solid var(--dim);
+  color:var(--dim);
+  padding:10px 28px;
+  cursor:pointer;
+  font-size:clamp(12px,1.7vw,14px);
+  letter-spacing:2px;
+  transition:all .15s;
+  box-shadow:3px 3px 0 #16324a;
+}
+.save-btn:hover{border-color:var(--green);color:var(--green);box-shadow:3px 3px 0 rgba(57,255,20,.5);}
+.save-btn:active{transform:translate(2px,2px);box-shadow:none;}
+.save-btn.saved{border-color:var(--green);color:var(--green);box-shadow:0 0 14px rgba(57,255,20,.5);}
+
+/* ===== Main ===== */
+main{
+  position:relative;z-index:10;
+  max-width:1100px;margin:0 auto;
+  padding:clamp(20px,5vw,50px) clamp(14px,4vw,40px) 120px;
+}
+
+/* Hero counter */
+.hero{text-align:center;margin-bottom:38px;}
+.hero h1{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(14px,3.6vw,30px);
+  color:var(--cyan);
+  letter-spacing:2px;
+  animation:neon-pulse 1.6s ease-in-out infinite alternate;
+  margin-bottom:10px;
+}
+.hero .sub-jp{
+  font-family:'VT323',monospace;
+  font-size:clamp(16px,2.6vw,24px);
+  color:var(--dim);
+  letter-spacing:1px;
+}
+@keyframes neon-pulse{
+  from{text-shadow:0 0 4px var(--cyan), 0 0 12px #00F5FF80;}
+  to{text-shadow:0 0 8px var(--cyan), 0 0 24px #00F5FFAA, 0 0 48px #00F5FF60;}
+}
+
+/* counter grid */
+.counter{
+  display:flex;justify-content:center;align-items:flex-end;
+  flex-wrap:wrap;gap:clamp(4px,1.4vw,14px);
+  margin:30px 0 22px;
+  cursor:pointer;
+  user-select:none;
+}
+.unit{display:flex;flex-direction:column;align-items:center;min-width:0;}
+.digits{
+  display:flex;gap:3px;
+  perspective:400px;
+}
+.digit{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(18px,5.2vw,46px);
+  color:var(--cyan);
+  background:var(--navy);
+  border:2px solid #16324a;
+  padding:clamp(6px,1.4vw,14px) clamp(4px,1vw,10px);
+  border-radius:3px;
+  text-shadow:0 0 6px var(--cyan), 0 0 16px #00F5FF66;
+  transform-style:preserve-3d;
+  min-width:clamp(20px,5.6vw,46px);
+  text-align:center;
+}
+.digit.flip{animation:digit-flip .55s ease;}
+@keyframes digit-flip{
+  0%{transform:rotateX(0deg);opacity:1;}
+  50%{transform:rotateX(-90deg);opacity:0.3;}
+  100%{transform:rotateX(0deg);opacity:1;}
+}
+.unit.secs .digit{
+  color:var(--magenta);
+  border-color:#5a1430;
+  text-shadow:0 0 6px var(--magenta), 0 0 16px #FF2D7866;
+  transition:transform .1s, text-shadow .1s;
+}
+.unit-label{
+  font-family:'VT323',monospace;
+  font-size:clamp(12px,2vw,20px);
+  color:var(--dim);
+  margin-top:8px;
+  letter-spacing:2px;
+}
+.sep{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(14px,3.6vw,30px);
+  color:var(--dim);
+  align-self:center;
+  padding-bottom:24px;
+  animation:blink 1s step-end infinite;
+}
+.counter.frozen .digit{filter:saturate(0.3) brightness(0.7);}
+.counter.catchup .digit{animation:digit-flip .12s linear;}
+
+/* sub text */
+.sub-quote{
+  text-align:center;
+  font-family:'VT323',monospace;
+  font-size:clamp(16px,2.8vw,26px);
+  color:var(--amber);
+  min-height:1.4em;
+  letter-spacing:1px;
+  text-shadow:0 0 8px rgba(255,184,0,.4);
+  margin-bottom:30px;
+  transition:opacity .5s;
+}
+
+/* life bar */
+.lifebar-wrap{max-width:640px;margin:0 auto 46px;}
+.lifebar-head{
+  display:flex;justify-content:space-between;
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(11px,1.8vw,15px);
+  color:var(--dim);
+  margin-bottom:8px;letter-spacing:1px;
+}
+.lifebar-pct{color:var(--amber);}
+.lifebar{
+  height:26px;
+  background:var(--navy);
+  border:2px solid #16324a;
+  border-radius:3px;
+  padding:3px;
+  position:relative;overflow:hidden;
+}
+.lifebar-fill{
+  height:100%;
+  width:0%;
+  background:var(--green);
+  border-radius:1px;
+  transition:width .6s ease, background .6s;
+  background-image:repeating-linear-gradient(90deg,
+    rgba(0,0,0,.18) 0 6px, transparent 6px 12px);
+  box-shadow:0 0 14px currentColor;
+}
+
+/* settings */
+.settings{
+  border:2px solid var(--navy);
+  background:linear-gradient(180deg, rgba(13,27,42,0.55), rgba(8,11,20,0.4));
+  border-radius:6px;
+  padding:clamp(16px,3vw,28px);
+  position:relative;overflow:hidden;
+}
+.settings h2{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(11px,2vw,16px);
+  color:var(--green);
+  letter-spacing:1px;
+  margin-bottom:18px;
+  text-shadow:0 0 8px rgba(57,255,20,.5);
+}
+.settings-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:clamp(12px,2.4vw,22px);
+}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(12px,1.7vw,14px);
+  color:var(--ghost);
+  letter-spacing:1px;
+}
+.field .note{
+  font-family:'VT323',monospace;
+  font-size:clamp(13px,1.9vw,17px);
+  color:var(--dim);
+}
+.field input{
+  font-family:'Share Tech Mono',monospace;
+  background:var(--void);
+  border:2px solid #16324a;
+  color:var(--cyan);
+  padding:9px 10px;
+  font-size:clamp(13px,1.8vw,15px);
+  border-radius:3px;
+  outline:none;
+  transition:border .15s, box-shadow .15s;
+  width:100%;
+}
+.field input:focus{
+  border-color:var(--green);
+  box-shadow:0 0 10px rgba(57,255,20,.4);
+  color:var(--green);
+}
+.ripple{
+  position:absolute;border-radius:50%;
+  background:rgba(57,255,20,.35);
+  transform:translate(-50%,-50%) scale(0);
+  pointer-events:none;
+  animation:ripple-go .7s ease-out forwards;
+}
+@keyframes ripple-go{
+  to{transform:translate(-50%,-50%) scale(28);opacity:0;}
+}
+
+/* question card */
+.qcard{
+  position:fixed;
+  right:clamp(10px,2vw,24px);
+  bottom:clamp(10px,2vw,24px);
+  z-index:11;
+  max-width:min(300px,72vw);
+  border:2px solid #16324a;
+  background:rgba(13,27,42,0.85);
+  backdrop-filter:blur(2px);
+  border-radius:5px;
+  padding:14px 16px;
+  font-family:'VT323',monospace;
+  font-size:clamp(15px,2vw,19px);
+  color:var(--ghost);
+  line-height:1.4;
+  box-shadow:0 0 18px rgba(0,0,0,.5);
+}
+.qcard .qlabel{
+  font-family:'Share Tech Mono',monospace;
+  font-size:11px;color:var(--magenta);
+  letter-spacing:2px;display:block;margin-bottom:6px;
+}
+.qcard.swap{animation:qswap .5s ease;}
+@keyframes qswap{0%{opacity:0;transform:translateY(8px);}100%{opacity:1;transform:none;}}
+
+/* toast */
+#toast-zone{
+  position:fixed;left:50%;top:74px;
+  transform:translateX(-50%);
+  z-index:40;display:flex;flex-direction:column;gap:8px;
+  align-items:center;pointer-events:none;
+}
+.toast{
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(11px,1.8vw,14px);
+  color:var(--green);
+  background:rgba(8,11,20,.92);
+  border:1px solid var(--green);
+  padding:8px 16px;border-radius:3px;
+  box-shadow:0 0 14px rgba(57,255,20,.3);
+  animation:toast-in .4s ease, toast-out .4s ease 3.6s forwards;
+}
+.toast.alert{color:var(--magenta);border-color:var(--magenta);box-shadow:0 0 14px rgba(255,45,120,.3);}
+@keyframes toast-in{from{opacity:0;transform:translateY(-10px);}}
+@keyframes toast-out{to{opacity:0;transform:translateY(-10px);}}
+
+/* glitch */
+.glitching{animation:glitch .28s steps(2) 1;}
+@keyframes glitch{
+  0%{clip-path:inset(20% 0 60% 0);transform:translateX(-4px);filter:hue-rotate(90deg);}
+  33%{clip-path:inset(60% 0 10% 0);transform:translateX(4px);}
+  66%{clip-path:inset(40% 0 30% 0);transform:translateX(-2px);filter:hue-rotate(-90deg);}
+  100%{clip-path:inset(0);transform:none;filter:none;}
+}
+
+footer{
+  position:relative;z-index:10;
+  text-align:center;
+  font-family:'VT323',monospace;
+  color:var(--dim);
+  font-size:14px;
+  padding:20px;letter-spacing:1px;
+}
+
+@media(max-width:560px){
+  .qcard{position:static;margin:30px auto 0;max-width:100%;}
+  .sep{display:none;}
+  .counter{gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+<div class="scanline-overlay"></div>
+
+<!-- BOOT SCREEN -->
+<div id="boot-screen"><div id="boot-text"></div></div>
+
+<header>
+  <div class="brand"><span class="led"></span>LIFE&nbsp;TIMER</div>
+  <div class="header-actions">
+    <div class="share-wrap">
+      <button id="share-btn" class="sound-btn share-btn">&#9650; SHARE</button>
+      <div class="share-menu" id="share-menu">
+        <button id="share-x">&#9654; Twitter / X</button>
+        <button id="share-copy">&#9632; URLをコピー</button>
+        <button id="share-native">&#9654; その他でシェア</button>
+      </div>
+    </div>
+    <button id="sound-btn" class="sound-btn">&#9834; SOUND: OFF</button>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>FREE TIME LEFT</h1>
+    <div class="sub-jp">あなたの本当の自由時間</div>
+  </div>
+
+  <div class="counter" id="counter">
+    <div class="unit years"><div class="digits" data-unit="years"></div><div class="unit-label">YEARS</div></div>
+    <div class="sep">:</div>
+    <div class="unit months"><div class="digits" data-unit="months"></div><div class="unit-label">MONTHS</div></div>
+    <div class="sep">:</div>
+    <div class="unit days"><div class="digits" data-unit="days"></div><div class="unit-label">DAYS</div></div>
+    <div class="sep">:</div>
+    <div class="unit hours"><div class="digits" data-unit="hours"></div><div class="unit-label">HOURS</div></div>
+    <div class="sep">:</div>
+    <div class="unit mins"><div class="digits" data-unit="mins"></div><div class="unit-label">MINS</div></div>
+    <div class="sep">:</div>
+    <div class="unit secs"><div class="digits" data-unit="secs"></div><div class="unit-label">SECS</div></div>
+  </div>
+
+  <div class="sub-quote" id="sub-quote">あと何個の春を、本気で生きる？</div>
+
+  <div class="lifebar-wrap">
+    <div class="lifebar-head"><span>LIFE USED</span><span class="lifebar-pct" id="life-pct">--%</span></div>
+    <div class="lifebar"><div class="lifebar-fill" id="life-fill"></div></div>
+  </div>
+
+  <div class="settings" id="settings">
+    <h2>PLAYER SETTINGS</h2>
+    <div class="settings-grid">
+      <div class="field">
+        <label>生年月日</label>
+        <span class="note">Date of birth</span>
+        <input type="date" id="in-birth" value="1990-01-01">
+      </div>
+      <div class="field">
+        <label>推定寿命（歳）</label>
+        <span class="note">When do you exit the game?</span>
+        <input type="number" id="in-age" value="85" min="1" max="150">
+      </div>
+      <div class="field">
+        <label>睡眠時間 / 日</label>
+        <span class="note">Offline hours</span>
+        <input type="number" id="in-sleep" value="7" min="0" max="24" step="0.5">
+      </div>
+      <div class="field">
+        <label>仕事時間 / 日</label>
+        <span class="note">Duty mode hours</span>
+        <input type="number" id="in-work" value="8" min="0" max="24" step="0.5">
+      </div>
+      <div class="field">
+        <label>仕事日数 / 年</label>
+        <span class="note">Working days per year</span>
+        <input type="number" id="in-workdays" value="240" min="0" max="365">
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button id="save-btn" class="save-btn">[ SAVE DATA ]</button>
+    </div>
+  </div>
+</main>
+
+<div class="qcard" id="qcard">
+  <span class="qlabel">&gt; QUESTION</span>
+  <span id="qcard-text">「いつか」と言った日から、何年が経ちましたか。</span>
+</div>
+
+<div id="toast-zone"></div>
+
+<footer>EVERY SECOND IS NON-REFUNDABLE — LIFE TIMER v1.0.0</footer>
+
+<script>
+"use strict";
+/* ============ STATE ============ */
+const cfg = { birth:"1990-01-01", age:85, sleep:7, work:8, workdays:240 };
+const YEAR_DAYS = 365.25;
+const prevDigits = {};      // for flip detection
+let frozenUntil = 0;        // M-2 pause-lie
+
+/* ============ localStorage ============ */
+const LS_KEY = "lifetimer-v1";
+function saveSettings(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(cfg)); }catch(e){}
+}
+function loadSettings(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    if(s.birth)    { cfg.birth    = s.birth;    inputs.birth.value    = s.birth; }
+    if(s.age)      { cfg.age      = s.age;       inputs.age.value      = s.age; }
+    if(s.sleep!=null){ cfg.sleep  = s.sleep;     inputs.sleep.value    = s.sleep; }
+    if(s.work!=null) { cfg.work   = s.work;      inputs.work.value     = s.work; }
+    if(s.workdays!=null){ cfg.workdays=s.workdays; inputs.workdays.value=s.workdays; }
+  }catch(e){}
+}
+
+/* ============ BOOT SCREEN ============ */
+const bootLines = [
+  {t:"> INITIALIZING LIFE TIMER v1.0.0..."},
+  {t:"> LOADING MORTALITY MATRIX...........OK"},
+  {t:"> CALCULATING FREE TIME REMAINING..."},
+  {t:"> WARNING: EVERY SECOND IS NON-REFUNDABLE", c:"warn"},
+  {t:"> BOOT COMPLETE"},
+  {t:"[PRESS ANY KEY TO FACE REALITY]", c:"prompt"}
+];
+const bootEl = document.getElementById("boot-text");
+const bootScreen = document.getElementById("boot-screen");
+let bootDone = false;
+let bootAborted = false;
+
+function typeBoot(i){
+  if(bootAborted) return;
+  if(i >= bootLines.length){ bootDone = true; return; }
+  const line = bootLines[i];
+  const div = document.createElement("div");
+  div.className = "boot-line" + (line.c ? " "+line.c : "");
+  bootEl.appendChild(div);
+  let j = 0;
+  const txt = line.t;
+  const cur = document.createElement("span");
+  cur.className = "cursor-blk";
+  div.appendChild(cur);
+  const iv = setInterval(()=>{
+    if(bootAborted){ clearInterval(iv); return; }
+    if(j < txt.length){
+      cur.insertAdjacentText("beforebegin", txt[j]);
+      beep(660,18,'square',0.04);
+      j++;
+    } else {
+      clearInterval(iv);
+      cur.remove();
+      setTimeout(()=>typeBoot(i+1), line.c==="warn"?420:160);
+    }
+  }, 22);
+}
+function dismissBoot(){
+  if(!bootDone){
+    bootAborted = true;
+    bootEl.innerHTML = bootLines.map(l=>`<div class="boot-line ${l.c||''}">${l.t}</div>`).join("");
+    bootDone = true;
+    return;
+  }
+  bootScreen.style.transition = "opacity .4s";
+  bootScreen.style.opacity = "0";
+  setTimeout(()=>bootScreen.remove(), 420);
+  document.removeEventListener("keydown", dismissBoot);
+  bootScreen.removeEventListener("click", dismissBoot);
+  showToast("> SYSTEM: 今日も起動した。それだけで十分だ。", false);
+}
+document.addEventListener("keydown", dismissBoot);
+bootScreen.addEventListener("click", dismissBoot);
+setTimeout(()=>typeBoot(0), 300);
+
+/* ============ CALCULATION ============ */
+function computeFreeSeconds(){
+  const birth = new Date(cfg.birth + "T00:00:00");
+  if(isNaN(birth.getTime())) return { free:0, lifePct:0, dead:false };
+  const deathMs = birth.getTime() + cfg.age * YEAR_DAYS * 86400 * 1000;
+  const now = Date.now();
+  const remainMs = deathMs - now;
+  if(remainMs <= 0) return { free:0, lifePct:100, dead:true };
+
+  const remainSec = remainMs / 1000;
+  const remainDays = remainSec / 86400;
+
+  const sleepSec = remainDays * cfg.sleep * 3600;
+  const workSec  = (remainDays / YEAR_DAYS) * cfg.workdays * cfg.work * 3600;
+
+  let free = remainSec - sleepSec - workSec;
+  if(free < 0) free = 0;
+
+  const totalLifeMs = cfg.age * YEAR_DAYS * 86400 * 1000;
+  const livedMs = now - birth.getTime();
+  let lifePct = (livedMs / totalLifeMs) * 100;
+  lifePct = Math.max(0, Math.min(100, lifePct));
+
+  return { free, lifePct, dead:false };
+}
+
+function breakdown(totalSec){
+  totalSec = Math.floor(totalSec);
+  const secPerYear = YEAR_DAYS * 86400;
+  const secPerMonth = secPerYear / 12;
+  const secPerDay = 86400;
+  const years = Math.floor(totalSec / secPerYear); totalSec -= years*secPerYear;
+  const months = Math.floor(totalSec / secPerMonth); totalSec -= months*secPerMonth;
+  const days = Math.floor(totalSec / secPerDay); totalSec -= days*secPerDay;
+  const hours = Math.floor(totalSec / 3600); totalSec -= hours*3600;
+  const mins = Math.floor(totalSec / 60); totalSec -= mins*60;
+  const secs = Math.floor(totalSec);
+  return {years,months,days,hours,mins,secs};
+}
+
+/* ============ RENDER COUNTER ============ */
+const unitWidths = {years:2, months:2, days:2, hours:2, mins:2, secs:2};
+function pad(n,w){ return String(n).padStart(w,"0"); }
+
+function renderUnit(unit, value){
+  const container = document.querySelector(`.digits[data-unit="${unit}"]`);
+  const str = pad(value, unitWidths[unit]);
+  if(container.children.length !== str.length){
+    container.innerHTML = "";
+    for(const ch of str){
+      const d = document.createElement("span");
+      d.className = "digit"; d.textContent = ch;
+      container.appendChild(d);
+    }
+    prevDigits[unit] = "";
+  }
+  const prev = prevDigits[unit] || "";
+  for(let i=0;i<str.length;i++){
+    const d = container.children[i];
+    if(d.textContent !== str[i]){
+      d.textContent = str[i];
+    }
+    if(prev[i] !== undefined && prev[i] !== str[i]){
+      d.classList.remove("flip");
+      void d.offsetWidth;
+      d.classList.add("flip");
+    }
+  }
+  prevDigits[unit] = str;
+}
+
+const lifeFill = document.getElementById("life-fill");
+const lifePctEl = document.getElementById("life-pct");
+
+function lerpColor(a,b,t){
+  const ah=parseInt(a.slice(1),16), bh=parseInt(b.slice(1),16);
+  const ar=ah>>16,ag=(ah>>8)&255,ab=ah&255;
+  const br=bh>>16,bg=(bh>>8)&255,bb=bh&255;
+  const r=Math.round(ar+(br-ar)*t),g=Math.round(ag+(bg-ag)*t),bl=Math.round(ab+(bb-ab)*t);
+  return `rgb(${r},${g},${bl})`;
+}
+
+let lastSecVal = -1;
+function tick(){
+  const now = Date.now();
+  if(now < frozenUntil){
+    requestAnimationFrame(tick);
+    return;
+  }
+  const data = computeFreeSeconds();
+  const b = breakdown(data.free);
+  ["years","months","days","hours","mins","secs"].forEach(u=>renderUnit(u, b[u]));
+
+  if(b.secs !== lastSecVal){
+    lastSecVal = b.secs;
+    if(soundOn) beep(880,50,'square',0.05);
+  }
+
+  const pct = data.lifePct;
+  lifeFill.style.width = pct.toFixed(1) + "%";
+  lifePctEl.textContent = pct.toFixed(1) + "%";
+  let col;
+  if(pct < 50) col = lerpColor("#39FF14","#FFB800", pct/50);
+  else col = lerpColor("#FFB800","#FF2D78", (pct-50)/50);
+  lifeFill.style.background = col;
+  lifeFill.style.color = col;
+
+  requestAnimationFrame(tick);
+}
+
+/* ============ M-2 pause-lie ============ */
+const counterEl = document.getElementById("counter");
+counterEl.addEventListener("click",()=>{
+  if(frozenUntil > Date.now()) return;
+  frozenUntil = Date.now() + 1000;
+  counterEl.classList.add("frozen");
+  if(soundOn) beep(140,300,'sawtooth',0.06);
+  setTimeout(()=>{
+    counterEl.classList.remove("frozen");
+    counterEl.classList.add("catchup");
+    if(soundOn){
+      beep(220,40,'square',0.05);
+      setTimeout(()=>beep(440,40,'square',0.05),60);
+      setTimeout(()=>beep(880,60,'square',0.05),120);
+    }
+    setTimeout(()=>counterEl.classList.remove("catchup"), 400);
+    showToast("> ALERT: 1秒は戻らなかった。", true);
+  }, 1000);
+});
+
+/* ============ M-3 heavy secs on hover ============ */
+const secsUnit = document.querySelector(".unit.secs");
+let hoverStart = 0, hoverRAF = null;
+secsUnit.addEventListener("mouseenter",()=>{
+  hoverStart = Date.now();
+  const grow = ()=>{
+    const held = Math.min((Date.now()-hoverStart)/1500, 1);
+    const scale = 1 + held*0.4;
+    secsUnit.querySelectorAll(".digit").forEach(d=>{
+      d.style.transform = `scale(${scale})`;
+      d.style.textShadow = `0 0 ${6+held*18}px var(--magenta), 0 0 ${16+held*30}px #FF2D7699`;
+    });
+    hoverRAF = requestAnimationFrame(grow);
+  };
+  grow();
+});
+secsUnit.addEventListener("mouseleave",()=>{
+  cancelAnimationFrame(hoverRAF);
+  secsUnit.querySelectorAll(".digit").forEach(d=>{
+    d.style.transform = ""; d.style.textShadow = "";
+  });
+});
+
+/* ============ SETTINGS bindings + ripple ============ */
+const inputs = {
+  birth: document.getElementById("in-birth"),
+  age: document.getElementById("in-age"),
+  sleep: document.getElementById("in-sleep"),
+  work: document.getElementById("in-work"),
+  workdays: document.getElementById("in-workdays"),
+};
+const settingsEl = document.getElementById("settings");
+function clampNum(v,min,max,def){
+  v = parseFloat(v); if(isNaN(v)) return def;
+  return Math.max(min, Math.min(max, v));
+}
+function readCfg(){
+  cfg.birth = inputs.birth.value || "1990-01-01";
+  cfg.age = clampNum(inputs.age.value, 1, 150, 85);
+  cfg.sleep = clampNum(inputs.sleep.value, 0, 24, 7);
+  cfg.work = clampNum(inputs.work.value, 0, 24, 8);
+  cfg.workdays = clampNum(inputs.workdays.value, 0, 365, 240);
+  if(cfg.sleep + cfg.work > 24){ cfg.work = Math.max(0, 24 - cfg.sleep); }
+}
+loadSettings();
+Object.values(inputs).forEach(inp=>{
+  inp.addEventListener("input", (e)=>{
+    readCfg();
+    saveSettings();
+    spawnRipple(e);
+    if(soundOn) sweep(200,800,180);
+  });
+});
+function spawnRipple(e){
+  const rect = settingsEl.getBoundingClientRect();
+  const r = document.createElement("div");
+  r.className = "ripple";
+  const x = (e.clientX || rect.left+rect.width/2) - rect.left;
+  const y = (e.clientY || rect.top+30) - rect.top;
+  r.style.left = x+"px"; r.style.top = y+"px";
+  r.style.width = r.style.height = "20px";
+  settingsEl.appendChild(r);
+  setTimeout(()=>r.remove(), 720);
+}
+
+/* ============ SUB-QUOTE + QUESTION rotation ============ */
+const subQuotes = [
+  "残りの春は、意外と少ない。",
+  "今日の時間は、昨日と同じ使い方？",
+  "この1時間に、名前をつけるとしたら"
+];
+const questions = [
+  "「いつか」と言った日から、何年が経ちましたか。",
+  "あなたが本当に怖いのは、死ぬことですか。それとも、生きたのに何も残らないことですか。",
+  "昨日の自分に会えたら、何を伝えますか。",
+  "好きなことを「仕事にする」前に——あなたは今日、好きなことを「した」ですか。",
+  "カウンターが0になる日、後悔するとしたら、それは何ですか。今日、その逆をやってみてください。"
+];
+const subQuoteEl = document.getElementById("sub-quote");
+const qcardEl = document.getElementById("qcard");
+const qcardText = document.getElementById("qcard-text");
+let sqIdx=0, qIdx=0;
+function rotateSub(){
+  sqIdx = (sqIdx+1)%subQuotes.length;
+  subQuoteEl.style.opacity = 0;
+  setTimeout(()=>{ subQuoteEl.textContent = subQuotes[sqIdx]; subQuoteEl.style.opacity=1; }, 300);
+}
+function rotateQ(){
+  qIdx = (qIdx+1)%questions.length;
+  qcardText.textContent = questions[qIdx];
+  qcardEl.classList.remove("swap"); void qcardEl.offsetWidth; qcardEl.classList.add("swap");
+}
+setInterval(rotateSub, 60000);
+setInterval(rotateQ, 60000);
+
+/* ============ TOAST ============ */
+const toastZone = document.getElementById("toast-zone");
+function showToast(msg, isAlert){
+  const t = document.createElement("div");
+  t.className = "toast" + (isAlert ? " alert" : "");
+  t.textContent = msg;
+  toastZone.appendChild(t);
+  setTimeout(()=>t.remove(), 4200);
+}
+
+/* ============ CANVAS: particles, trail, click explosion ============ */
+const canvas = document.getElementById("particle-canvas");
+const ctx = canvas.getContext("2d");
+let W,H;
+function resize(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; }
+resize(); addEventListener("resize", resize);
+
+const particles = [];
+const blocks = [];
+
+document.addEventListener("mousemove",(e)=>{
+  particles.push({
+    x:e.clientX, y:e.clientY,
+    color: Math.random()<0.85 ? "#00F5FF" : "#FF2D78",
+    radius:3, life:400, born:performance.now()
+  });
+  if(particles.length>300) particles.shift();
+});
+
+document.addEventListener("click",(e)=>{
+  if(!bootDone) return;
+  for(let i=0;i<8;i++){
+    const ang = (Math.PI*2/8)*i;
+    const sp = 2.5 + Math.random()*2.5;
+    blocks.push({
+      x:e.clientX, y:e.clientY,
+      vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp,
+      size: 5+Math.random()*5,
+      color: Math.random()<0.7 ? "#00F5FF" : (Math.random()<0.5?"#FF2D78":"#39FF14"),
+      life:1
+    });
+  }
+  if(soundOn) beep(330,40,'square',0.04);
+});
+
+function drawCanvas(now){
+  ctx.clearRect(0,0,W,H);
+  for(let i=particles.length-1;i>=0;i--){
+    const p = particles[i];
+    const t = (now - p.born) / p.life;
+    if(t>=1){ particles.splice(i,1); continue; }
+    ctx.globalAlpha = (1-t)*0.9;
+    ctx.fillStyle = p.color;
+    const r = p.radius*(1-t*0.5);
+    ctx.fillRect(p.x-r, p.y-r, r*2, r*2);
+  }
+  for(let i=blocks.length-1;i>=0;i--){
+    const b = blocks[i];
+    b.x+=b.vx; b.y+=b.vy; b.vy+=0.12; b.life-=0.022;
+    if(b.life<=0){ blocks.splice(i,1); continue; }
+    ctx.globalAlpha = b.life;
+    ctx.fillStyle = b.color;
+    ctx.fillRect(b.x, b.y, b.size, b.size);
+  }
+  ctx.globalAlpha=1;
+  requestAnimationFrame(drawCanvas);
+}
+requestAnimationFrame(drawCanvas);
+
+/* ============ CRT GLITCH random ============ */
+function glitchLoop(){
+  if(Math.random()<0.02 && bootDone){
+    counterEl.classList.add("glitching");
+    setTimeout(()=>counterEl.classList.remove("glitching"), 280);
+  }
+  requestAnimationFrame(glitchLoop);
+}
+requestAnimationFrame(glitchLoop);
+
+/* ============ WEB AUDIO ============ */
+let audioCtx = null, soundOn = false;
+const soundBtn = document.getElementById("sound-btn");
+soundBtn.addEventListener("click",()=>{
+  soundOn = !soundOn;
+  if(soundOn && !audioCtx){
+    try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ audioCtx=null; }
+  }
+  if(soundOn && audioCtx && audioCtx.state==="suspended") audioCtx.resume();
+  soundBtn.textContent = soundOn ? "♪ SOUND: ON" : "♪ SOUND: OFF";
+  soundBtn.classList.toggle("on", soundOn);
+});
+function beep(freq, ms, type, vol){
+  if(!soundOn || !audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = type||"square"; o.frequency.value = freq;
+  o.connect(g); g.connect(audioCtx.destination);
+  const t = audioCtx.currentTime;
+  g.gain.setValueAtTime(vol||0.05, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+ms/1000);
+  o.start(t);
+  o.stop(t+ms/1000+0.01);
+}
+function sweep(from,to,ms){
+  if(!soundOn || !audioCtx) return;
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+  o.type="square"; o.connect(g); g.connect(audioCtx.destination);
+  const t=audioCtx.currentTime;
+  o.frequency.setValueAtTime(from,t);
+  o.frequency.linearRampToValueAtTime(to,t+ms/1000);
+  g.gain.setValueAtTime(0.04,t);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+ms/1000);
+  o.start(t); o.stop(t+ms/1000+0.01);
+}
+// minute double-beep
+let lastSecForMin=-1;
+setInterval(()=>{
+  const s = new Date().getSeconds();
+  if(s===0 && lastSecForMin!==0 && soundOn){
+    beep(990,80,'square',0.05); setTimeout(()=>beep(990,80,'square',0.05),140);
+  }
+  lastSecForMin=s;
+},500);
+
+/* ============ SAVE DATA button ============ */
+const saveDataBtn = document.getElementById("save-btn");
+saveDataBtn.addEventListener("click", ()=>{
+  saveSettings();
+  saveDataBtn.textContent = "[ SAVED ✓ ]";
+  saveDataBtn.classList.add("saved");
+  showToast("> SAVE DATA: 設定を保存しました。", false);
+  if(soundOn) sweep(200, 660, 150);
+  setTimeout(()=>{
+    saveDataBtn.textContent = "[ SAVE DATA ]";
+    saveDataBtn.classList.remove("saved");
+  }, 2000);
+});
+
+/* ============ SHARE button ============ */
+const shareBtn  = document.getElementById("share-btn");
+const shareMenu = document.getElementById("share-menu");
+function shareText(){
+  const { free } = computeFreeSeconds();
+  const b = breakdown(free);
+  return `自由時間は、今も燃えている。\n残り自由時間: ${b.years}年 ${b.months}ヶ月 ${b.days}日\n睡眠・仕事を除いた、あなただけの時間。\n#LIFE_TIMER`;
+}
+shareBtn.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  shareMenu.classList.toggle("open");
+});
+document.addEventListener("click", ()=> shareMenu.classList.remove("open"));
+
+document.getElementById("share-x").addEventListener("click", ()=>{
+  const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText()+"\n"+location.href)}`;
+  window.open(url, "_blank", "noopener");
+  shareMenu.classList.remove("open");
+  if(soundOn) sweep(400, 880, 160);
+});
+document.getElementById("share-copy").addEventListener("click", ()=>{
+  navigator.clipboard.writeText(location.href).then(()=>{
+    showToast("> COPY: URLをコピーしました。", false);
+  }).catch(()=>{
+    showToast("> COPY: コピーに失敗しました。", true);
+  });
+  shareMenu.classList.remove("open");
+  if(soundOn) beep(660, 80, "square", 0.04);
+});
+document.getElementById("share-native").addEventListener("click", async ()=>{
+  shareMenu.classList.remove("open");
+  if(!navigator.share){ showToast("> ALERT: このブラウザは未対応です。", true); return; }
+  try{
+    await navigator.share({ title:"LIFE TIMER", text: shareText(), url: location.href });
+    if(soundOn) sweep(400, 880, 160);
+  }catch(e){}
+});
+
+/* ============ START ============ */
+readCfg();
+requestAnimationFrame(tick);
+setInterval(()=>{ if(bootDone && Math.random()<0.5) showToast("> ALERT: 昨日のあなたには、もう戻れない。", true); }, 95000);
+
+/* ============ SERVICE WORKER ============ */
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
+</script>
+</body>
+</html>

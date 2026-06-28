@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Self-Projects — Renel. Studio</title>
+    <meta
+      name="description"
+      content="1日1アプリをはじめとした個人制作プロジェクトの実験場。Renel. Studio / Karen Murata の手を動かす記録。"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div class="page-curtain" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
+
+    <header class="nav is-scrolled" id="nav">
+      <div class="container nav__inner">
+        <a href="../index.html" class="nav__logo">Renel<span>.</span></a>
+        <nav>
+          <ul class="nav__links" id="navLinks">
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#business">Business</a></li>
+            <li><a href="../works/index.html">Works</a></li>
+            <li><a href="../self-projects/index.html">Self-Projects</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="nav__toggle" id="navToggle" aria-label="メニューを開く">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-head">
+        <div class="container">
+          <a href="../index.html" class="back-link is-interactive">← Home</a>
+          <h1 class="page-head__title">Self-Projects</h1>
+          <p class="page-head__lead">
+            「1日1アプリ」をはじめ、思いついたら手を動かして形にする実験場。
+            学びと遊びの境目にある、個人制作プロジェクトの記録です。
+          </p>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 20px">
+        <div class="container">
+          <div class="card-grid" id="cardGrid">
+            <a href="life-timer/index.html" class="card is-interactive" data-category="app">
+              <div class="card__media card__media--terra" data-tag="1日1アプリ"></div>
+              <div class="card__body">
+                <h3 class="card__title">Life Timer</h3>
+                <p class="card__desc">
+                  睡眠・仕事を除いた本当の自由時間をリアルタイムカウントダウン。ブート画面・パーティクルエフェクト・PWA 対応のレトロ UI アプリ。
+                </p>
+                <div class="card__meta"><span>Vanilla JS</span><span>2026</span></div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__inner">
+          <a href="../index.html" class="footer__logo is-interactive"
+            >Renel<span>.</span></a
+          >
+          <div class="footer__links">
+            <a href="../index.html#about" class="is-interactive">About</a>
+            <a href="../index.html#business" class="is-interactive">Business</a>
+            <a href="../works/index.html" class="is-interactive">Works</a>
+            <a href="../self-projects/index.html" class="is-interactive">Self-Projects</a>
+            <a href="../company/index.html" class="is-interactive">Company</a>
+            <a href="../index.html#contact" class="is-interactive">Contact</a>
+          </div>
+        </div>
+        <p class="footer__copy">© 2026 Renel. Studio / Karen Murata. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@latest/dist/lenis.min.js"></script>
+    <script src="../js/main.js"></script>
+  </body>
+</html>

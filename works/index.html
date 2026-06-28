@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Works — Renel. Studio</title>
+    <meta
+      name="description"
+      content="お野菜旅・Renel Studio・個人制作の実績一覧。事業ごとに絞り込んで閲覧できます。"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div class="page-curtain" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
+
+    <header class="nav is-scrolled" id="nav">
+      <div class="container nav__inner">
+        <a href="../index.html" class="nav__logo">Renel<span>.</span></a>
+        <nav>
+          <ul class="nav__links" id="navLinks">
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#business">Business</a></li>
+            <li><a href="../works/index.html">Works</a></li>
+            <li><a href="../self-projects/index.html">Self-Projects</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="nav__toggle" id="navToggle" aria-label="メニューを開く">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-head">
+        <div class="container">
+          <a href="../index.html" class="back-link is-interactive">← Home</a>
+          <h1 class="page-head__title">Works</h1>
+          <p class="page-head__lead">
+            お野菜旅と Renel Studio、そして個人制作。
+            これまでに手がけた仕事を事業ごとに絞り込んで見られます。
+          </p>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 20px">
+        <div class="container">
+          <div class="filters" id="filters">
+            <button class="filter-btn is-active is-interactive" data-filter="all">
+              All
+            </button>
+            <button class="filter-btn is-interactive" data-filter="yasai">
+              お野菜旅
+            </button>
+            <button class="filter-btn is-interactive" data-filter="studio">
+              Studio
+            </button>
+            <button class="filter-btn is-interactive" data-filter="projects">
+              Projects
+            </button>
+          </div>
+
+          <div class="card-grid" id="cardGrid">
+            <article class="card is-interactive" data-category="yasai">
+              <div class="card__media card__media--green" data-tag="Yasai-Tabi"></div>
+              <div class="card__body">
+                <h3 class="card__title">収穫体験ツアー設計</h3>
+                <p class="card__desc">
+                  旬の畑をめぐる日帰り体験プログラムの企画と運営フローを構築。
+                </p>
+                <div class="card__meta"><span>体験設計</span><span>2026</span></div>
+              </div>
+            </article>
+
+            <article class="card is-interactive" data-category="yasai">
+              <div class="card__media card__media--terra" data-tag="Yasai-Tabi"></div>
+              <div class="card__body">
+                <h3 class="card__title">産地ブランディング</h3>
+                <p class="card__desc">
+                  特定産地の魅力を言語化し、ロゴ・パッケージ・物語を一貫設計。
+                </p>
+                <div class="card__meta"><span>Branding</span><span>2026</span></div>
+              </div>
+            </article>
+
+            <article class="card is-interactive" data-category="studio">
+              <div class="card__media card__media--purple" data-tag="Studio"></div>
+              <div class="card__body">
+                <h3 class="card__title">ブランドサイト制作</h3>
+                <p class="card__desc">
+                  食品スタートアップの世界観を定義し、Web サイトを実装まで。
+                </p>
+                <div class="card__meta"><span>Web / Design</span><span>2026</span></div>
+              </div>
+            </article>
+
+            <article class="card is-interactive" data-category="studio">
+              <div class="card__media card__media--terra" data-tag="Studio"></div>
+              <div class="card__body">
+                <h3 class="card__title">プロモーション映像</h3>
+                <p class="card__desc">
+                  産地の風景を主役にした短編プロモーション映像を企画・制作。
+                </p>
+                <div class="card__meta"><span>Movie</span><span>2026</span></div>
+              </div>
+            </article>
+
+            <article class="card is-interactive" data-category="studio">
+              <div class="card__media card__media--gold" data-tag="Studio"></div>
+              <div class="card__body">
+                <h3 class="card__title">イラストシリーズ</h3>
+                <p class="card__desc">
+                  季節の野菜をモチーフにしたオリジナルイラストとグッズ展開。
+                </p>
+                <div class="card__meta"><span>Illustration</span><span>2026</span></div>
+              </div>
+            </article>
+
+            <article class="card is-interactive" data-category="studio">
+              <div class="card__media card__media--slate" data-tag="Studio"></div>
+              <div class="card__body">
+                <h3 class="card__title">SNSマーケティング支援</h3>
+                <p class="card__desc">
+                  立ち上げ期ブランドの SNS 運用設計と週次の分析レポート運用。
+                </p>
+                <div class="card__meta"><span>Marketing</span><span>2026</span></div>
+              </div>
+            </article>
+
+            <article class="card is-interactive" data-category="projects">
+              <div class="card__media card__media--gold" data-tag="Project"></div>
+              <div class="card__body">
+                <h3 class="card__title">ミクロ経済学ラボ</h3>
+                <p class="card__desc">
+                  価格弾力性や代替効果を可視化する、自分用の学習計算サイト。
+                </p>
+                <div class="card__meta"><span>FastAPI / React</span><span>2026</span></div>
+              </div>
+            </article>
+
+            <article class="card is-interactive" data-category="projects">
+              <div class="card__media card__media--slate" data-tag="Project"></div>
+              <div class="card__body">
+                <h3 class="card__title">ComfyUI Studio</h3>
+                <p class="card__desc">
+                  AnimateDiff で動画を生成する Web アプリ。VG エディタ搭載。
+                </p>
+                <div class="card__meta"><span>FastAPI / React</span><span>2026</span></div>
+              </div>
+            </article>
+
+            <article class="card is-interactive" data-category="projects">
+              <div class="card__media card__media--purple" data-tag="Project"></div>
+              <div class="card__body">
+                <h3 class="card__title">Connecting the Dots</h3>
+                <p class="card__desc">
+                  自分の活動を点と線で可視化する、四半期ごとのデータ可視化作品。
+                </p>
+                <div class="card__meta"><span>Data Viz</span><span>2026 Q2</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__inner">
+          <a href="../index.html" class="footer__logo is-interactive"
+            >Renel<span>.</span></a
+          >
+          <div class="footer__links">
+            <a href="../index.html#about" class="is-interactive">About</a>
+            <a href="../index.html#business" class="is-interactive">Business</a>
+            <a href="../works/index.html" class="is-interactive">Works</a>
+            <a href="../self-projects/index.html" class="is-interactive">Self-Projects</a>
+            <a href="../company/index.html" class="is-interactive">Company</a>
+            <a href="../index.html#contact" class="is-interactive">Contact</a>
+          </div>
+        </div>
+        <p class="footer__copy">© 2026 Renel. Studio / Karen Murata. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@latest/dist/lenis.min.js"></script>
+    <script src="../js/main.js"></script>
+  </body>
+</html>

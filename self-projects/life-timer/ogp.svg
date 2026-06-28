@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="mglow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="2" fill="black" opacity="0.15"/>
+    </pattern>
+    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="16" cy="16" r="1" fill="#00F5FF" opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <!-- background -->
+  <rect width="1200" height="630" fill="#080B14"/>
+  <!-- dot grid -->
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <!-- vignette -->
+  <radialGradient id="vig" cx="50%" cy="50%" r="70%">
+    <stop offset="0%" stop-color="transparent"/>
+    <stop offset="100%" stop-color="black" stop-opacity="0.6"/>
+  </radialGradient>
+  <rect width="1200" height="630" fill="url(#vig)"/>
+
+  <!-- outer border -->
+  <rect x="24" y="24" width="1152" height="582" fill="none" stroke="#00F5FF" stroke-width="2" stroke-dasharray="18 9" opacity="0.5"/>
+
+  <!-- LED indicator top-left -->
+  <rect x="48" y="48" width="14" height="14" fill="#FF2D78" rx="2"/>
+  <!-- brand -->
+  <text x="74" y="62" font-family="monospace" font-size="18" fill="#00F5FF" letter-spacing="4" filter="url(#glow)">LIFE TIMER</text>
+
+  <!-- main catch copy JP -->
+  <text x="600" y="220" font-family="monospace" font-size="52" fill="#00F5FF" text-anchor="middle" letter-spacing="4" filter="url(#glow)">自由時間は、今も燃えている。</text>
+  <!-- sub EN -->
+  <text x="600" y="274" font-family="monospace" font-size="22" fill="#4A6FA5" text-anchor="middle" letter-spacing="2">"You have more time than you think. Less than you need."</text>
+
+  <!-- counter display area -->
+  <rect x="120" y="310" width="960" height="140" fill="#0D1B2A" rx="4"/>
+  <rect x="126" y="316" width="948" height="128" fill="#0D1B2A" stroke="#00F5FF" stroke-width="2" rx="3" opacity="0.8"/>
+  <!-- scanlines -->
+  <rect x="126" y="316" width="948" height="128" fill="url(#scan)"/>
+
+  <!-- digit blocks -->
+  <rect x="140" y="330" width="100" height="70" fill="#00F5FF10" stroke="#00F5FF" stroke-width="1.5" rx="2"/>
+  <rect x="260" y="330" width="100" height="70" fill="#00F5FF10" stroke="#00F5FF" stroke-width="1.5" rx="2"/>
+  <rect x="388" y="330" width="100" height="70" fill="#00F5FF10" stroke="#00F5FF" stroke-width="1.5" rx="2"/>
+  <rect x="510" y="330" width="100" height="70" fill="#00F5FF10" stroke="#00F5FF" stroke-width="1.5" rx="2"/>
+  <rect x="638" y="330" width="100" height="70" fill="#00F5FF10" stroke="#00F5FF" stroke-width="1.5" rx="2"/>
+  <rect x="768" y="330" width="100" height="70" fill="#00F5FF10" stroke="#00F5FF" stroke-width="1.5" rx="2"/>
+  <rect x="898" y="330" width="100" height="70" fill="#FF2D7810" stroke="#FF2D78" stroke-width="1.5" rx="2"/>
+
+  <!-- separators -->
+  <circle cx="250" cy="358" r="6" fill="#4A6FA5"/>
+  <circle cx="250" cy="378" r="6" fill="#4A6FA5"/>
+  <circle cx="378" cy="358" r="6" fill="#4A6FA5"/>
+  <circle cx="378" cy="378" r="6" fill="#4A6FA5"/>
+  <circle cx="500" cy="358" r="6" fill="#4A6FA5"/>
+  <circle cx="500" cy="378" r="6" fill="#4A6FA5"/>
+  <circle cx="628" cy="358" r="6" fill="#4A6FA5"/>
+  <circle cx="628" cy="378" r="6" fill="#4A6FA5"/>
+  <circle cx="758" cy="358" r="6" fill="#4A6FA5"/>
+  <circle cx="758" cy="378" r="6" fill="#4A6FA5"/>
+  <circle cx="888" cy="358" r="6" fill="#4A6FA5"/>
+  <circle cx="888" cy="378" r="6" fill="#4A6FA5"/>
+
+  <!-- unit labels -->
+  <text x="190" y="420" font-family="monospace" font-size="14" fill="#4A6FA5" text-anchor="middle" letter-spacing="2">YEARS</text>
+  <text x="310" y="420" font-family="monospace" font-size="14" fill="#4A6FA5" text-anchor="middle" letter-spacing="2">MONTHS</text>
+  <text x="438" y="420" font-family="monospace" font-size="14" fill="#4A6FA5" text-anchor="middle" letter-spacing="2">DAYS</text>
+  <text x="560" y="420" font-family="monospace" font-size="14" fill="#4A6FA5" text-anchor="middle" letter-spacing="2">HOURS</text>
+  <text x="688" y="420" font-family="monospace" font-size="14" fill="#4A6FA5" text-anchor="middle" letter-spacing="2">MINS</text>
+  <text x="818" y="420" font-family="monospace" font-size="14" fill="#4A6FA5" text-anchor="middle" letter-spacing="2">MINS</text>
+  <text x="948" y="420" font-family="monospace" font-size="14" fill="#FF2D78" text-anchor="middle" letter-spacing="2" filter="url(#mglow)">SECS</text>
+
+  <!-- life bar -->
+  <rect x="120" y="468" width="960" height="28" fill="#0D1B2A" stroke="#4A6FA5" stroke-width="1" rx="2"/>
+  <rect x="124" y="472" width="530" height="20" fill="#39FF14" rx="1" opacity="0.8"/>
+  <text x="130" y="487" font-family="monospace" font-size="12" fill="#080B14" letter-spacing="1" opacity="0.7">LIFE USED</text>
+  <text x="1074" y="487" font-family="monospace" font-size="14" fill="#FFB800" text-anchor="end" letter-spacing="1">55.3%</text>
+
+  <!-- bottom line -->
+  <text x="600" y="578" font-family="monospace" font-size="13" fill="#1e3a56" text-anchor="middle" letter-spacing="3">EVERY SECOND IS NON-REFUNDABLE — 睡眠・仕事を除いた、あなただけの時間</text>
+</svg>
