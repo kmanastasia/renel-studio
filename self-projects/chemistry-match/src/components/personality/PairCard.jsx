@@ -34,18 +34,19 @@ export default function PairCard({ pair, comment, index }) {
           <PersonalityCharacter type={pair.person2.type} size={56} showLabel={false} />
         </div>
       </div>
-      <div className="flex items-center justify-between mb-2">
-        <span className="font-body font-bold text-sm">{pair.person1.name}</span>
-        <span className="text-muted-foreground text-xs">×</span>
-        <span className="font-body font-bold text-sm">{pair.person2.name}</span>
-      </div>
-      <div className="flex items-center gap-1 mb-3">
-        <span className="font-display text-[10px] font-bold tracking-wider uppercase bg-muted px-2 py-0.5 rounded-full">
-          {pair.person1.type}
+      <div className="flex items-center gap-2 mb-3">
+        <span className="flex items-center gap-1.5">
+          <span className="font-body font-bold text-sm">{pair.person1.name}</span>
+          <span className="font-display text-[10px] font-bold tracking-wider uppercase bg-muted px-2 py-0.5 rounded-full">
+            {pair.person1.type}
+          </span>
         </span>
         <span className="text-muted-foreground text-xs">×</span>
-        <span className="font-display text-[10px] font-bold tracking-wider uppercase bg-muted px-2 py-0.5 rounded-full">
-          {pair.person2.type}
+        <span className="flex items-center gap-1.5">
+          <span className="font-body font-bold text-sm">{pair.person2.name}</span>
+          <span className="font-display text-[10px] font-bold tracking-wider uppercase bg-muted px-2 py-0.5 rounded-full">
+            {pair.person2.type}
+          </span>
         </span>
       </div>
       <p className="text-xs text-muted-foreground leading-relaxed">{comment}</p>
