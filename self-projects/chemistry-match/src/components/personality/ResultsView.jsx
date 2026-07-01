@@ -34,7 +34,8 @@ export default function ResultsView({ participants, relationship, onReset }) {
   const shareText = `【Chemistry Match】\n${participants.map(p => `${p.name}(${p.type})`).join(' × ')} の相性は ${avgScore}% — ${scoreLabel.text}！`;
 
   const handleXShare = () => {
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+    const pageUrl = window.location.origin + window.location.pathname;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
     window.open(url, '_blank', 'noopener');
   };
 
@@ -96,7 +97,7 @@ export default function ResultsView({ participants, relationship, onReset }) {
           <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-[#FFE234] opacity-20 blur-3xl" />
           <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full bg-[#FF6B4A] opacity-15 blur-3xl" />
         </div>
-        <div className="relative px-5 py-12 md:py-20 text-center max-w-3xl mx-auto">
+        <div className="relative px-5 pt-12 pb-16 md:pt-20 md:pb-24 text-center max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -143,7 +144,7 @@ export default function ResultsView({ participants, relationship, onReset }) {
                 <div className="hidden md:block">
                   <PersonalityCharacter type={p.type} size={96} />
                 </div>
-                <p className="font-body font-bold text-xs mt-1 truncate max-w-[80px]">{p.name}</p>
+                <p className="font-body font-bold text-xs mt-1 pb-1 leading-normal truncate max-w-[80px]">{p.name}</p>
               </div>
             ))}
           </motion.div>
