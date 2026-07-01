@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+import html2canvas from "html2canvas";
 import { Button } from "@/components/ui/button";
 import PersonalityCharacter from "./PersonalityCharacter";
 import CountUpScore from "./CountUpScore";
@@ -27,6 +28,8 @@ export default function ResultsView({ participants, relationship, onReset }) {
   const insights = getGroupInsights(participants, relationship);
   const relInfo = RELATIONSHIP_TYPES.find((r) => r.id === relationship);
   const scoreLabel = getScoreLabel(avgScore);
+  const scoreCardRef = useRef(null);
+  const [isCapturing, setIsCapturing] = useState(false);
 
   const shareText = `【Chemistry Match】\n${participants.map(p => `${p.name}(${p.type})`).join(' × ')} の相性は ${avgScore}% — ${scoreLabel.text}！`;
 
@@ -35,9 +38,47 @@ export default function ResultsView({ participants, relationship, onReset }) {
     window.open(url, '_blank', 'noopener');
   };
 
+  const captureScoreCard = async () => {
+    const canvas = await html2canvas(scoreCardRef.current, {
+      scale: 2,
+      backgroundColor: "#ffffff",
+      useCORS: true,
+    });
+    return new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+  };
+
   const handleInstagramShare = async () => {
-    await navigator.clipboard.writeText(shareText);
-    toast.success('コピーしました！Instagramに貼り付けてください 📋');
+    if (isCapturing) return;
+    setIsCapturing(true);
+    try {
+      const blob = await captureScoreCard();
+      if (!blob) throw new Error("画像の生成に失敗しました");
+      const file = new File([blob], "chemistry-match.png", { type: "image/png" });
+
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "Chemistry Match",
+          text: shareText,
+        });
+      } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "chemistry-match.png";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        toast.success("画像を保存しました！Instagramのストーリーズなどでシェアしてください 📸");
+      }
+    } catch (err) {
+      if (err?.name !== "AbortError") {
+        toast.error("画像の作成に失敗しました。もう一度お試しください。");
+      }
+    } finally {
+      setIsCapturing(false);
+    }
   };
 
   const handleLineShare = () => {
@@ -50,7 +91,7 @@ export default function ResultsView({ participants, relationship, onReset }) {
       <Marquee />
       
       {/* Hero Score Section */}
-      <div className="relative overflow-hidden">
+      <div ref={scoreCardRef} className="relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-[#FFE234] opacity-20 blur-3xl" />
           <div className="absolute bottom-10 right-10 w-60 h-60 rounded-full bg-[#FF6B4A] opacity-15 blur-3xl" />
@@ -223,12 +264,17 @@ export default function ResultsView({ participants, relationship, onReset }) {
             </button>
             <button
               onClick={handleInstagramShare}
-              aria-label="Instagram用にコピー"
-              className="rounded-full w-12 h-12 border-2 border-border flex items-center justify-center hover:bg-foreground hover:text-background transition-all"
+              disabled={isCapturing}
+              aria-label="Instagram用に画像をシェア"
+              className="rounded-full w-12 h-12 border-2 border-border flex items-center justify-center hover:bg-foreground hover:text-background transition-all disabled:opacity-40 disabled:cursor-wait"
             >
-              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-              </svg>
+              {isCapturing ? (
+                <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+              )}
             </button>
             <button
               onClick={handleLineShare}

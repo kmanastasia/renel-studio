@@ -91,7 +91,7 @@ export default function Home() {
               animate="center"
               exit="exit"
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="text-center max-w-xl"
+              className="text-center max-w-4xl"
             >
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
@@ -139,7 +139,7 @@ export default function Home() {
                         TYPE GUIDE →
                       </button>
                     </DrawerTrigger>
-                    <DrawerContent className="max-h-[85vh] overflow-y-auto">
+                    <DrawerContent className="max-h-[85vh] max-h-[85dvh] overflow-y-auto">
                       <div className="max-w-2xl mx-auto w-full">
                         <DrawerHeader className="text-center">
                           <DrawerTitle className="font-display font-extrabold text-2xl tracking-tight">
