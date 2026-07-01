@@ -139,7 +139,8 @@ export default function Home() {
                         TYPE GUIDE →
                       </button>
                     </DrawerTrigger>
-                    <DrawerContent className="max-h-[85vh] max-h-[85dvh] overflow-y-auto">
+                    <DrawerContent className="max-h-[85vh] max-h-[85dvh] flex flex-col">
+                      <div data-vaul-no-drag className="overflow-y-auto overscroll-contain flex-1 min-h-0">
                       <div className="max-w-2xl mx-auto w-full">
                         <DrawerHeader className="text-center">
                           <DrawerTitle className="font-display font-extrabold text-2xl tracking-tight">
@@ -240,6 +241,7 @@ export default function Home() {
                             </div>
                           </div>
                         )}
+                      </div>
                       </div>
                     </DrawerContent>
                   </Drawer>
