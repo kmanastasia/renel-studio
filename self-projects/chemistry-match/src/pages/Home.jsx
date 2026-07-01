@@ -97,7 +97,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="font-display font-extrabold text-[48px] md:text-[80px] leading-[0.9] tracking-tighter mb-6 text-left w-full"
+                className="font-display font-extrabold text-[34px] sm:text-[48px] md:text-[80px] leading-[0.9] tracking-tighter mb-6 text-left w-full break-words"
               >
                 <span className="text-[#FFE234]">CHEMISTRY</span>
                 <br />

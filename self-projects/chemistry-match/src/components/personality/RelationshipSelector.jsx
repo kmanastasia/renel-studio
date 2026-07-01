@@ -13,7 +13,7 @@ export default function RelationshipSelector({ selected, onSelect, onBack }) {
         <ArrowLeft className="w-4 h-4" /> 戻る
       </button>
 
-      <h2 className="font-display font-extrabold text-3xl md:text-5xl tracking-tight text-center mb-2">
+      <h2 className="font-display font-extrabold text-2xl sm:text-3xl md:text-5xl tracking-tight text-center mb-2 break-words">
         CHOOSE YOUR<br />
         <span className="text-[#FF6B4A]">RELATIONSHIP</span>
       </h2>

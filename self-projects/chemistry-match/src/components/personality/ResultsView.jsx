@@ -113,7 +113,7 @@ export default function ResultsView({ participants, relationship, onReset }) {
 
       {/* Pair Results */}
       <div className="px-5 py-12 max-w-4xl mx-auto">
-        <h3 className="font-display font-extrabold text-2xl md:text-4xl tracking-tight mb-2">
+        <h3 className="font-display font-extrabold text-2xl md:text-4xl tracking-tight mb-2 break-words">
           PAIR<br />
           <span className="text-[#FF6B4A]">ANALYSIS</span>
         </h3>
@@ -134,7 +134,7 @@ export default function ResultsView({ participants, relationship, onReset }) {
       {/* Group Insights */}
       <div className="bg-muted">
         <div className="px-5 py-12 max-w-4xl mx-auto">
-          <h3 className="font-display font-extrabold text-2xl md:text-4xl tracking-tight mb-8">
+          <h3 className="font-display font-extrabold text-2xl md:text-4xl tracking-tight mb-8 break-words">
             GROUP<br />
             <span className="text-[#FFE234]">INSIGHTS</span>
           </h3>
@@ -192,7 +192,7 @@ export default function ResultsView({ participants, relationship, onReset }) {
 
       {/* Member Profiles */}
       <div className="px-5 py-12 max-w-4xl mx-auto">
-        <h3 className="font-display font-extrabold text-2xl md:text-4xl tracking-tight mb-2">
+        <h3 className="font-display font-extrabold text-2xl md:text-4xl tracking-tight mb-2 break-words">
           MEMBER<br />
           <span className="text-[#FFE234]">PROFILES</span>
         </h3>

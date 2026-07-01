@@ -37,7 +37,7 @@ export default function ParticipantForm({ participants, setParticipants, onBack 
         <ArrowLeft className="w-4 h-4" /> 戻る
       </button>
 
-      <h2 className="font-display font-extrabold text-3xl md:text-5xl tracking-tight mb-2">
+      <h2 className="font-display font-extrabold text-3xl md:text-5xl tracking-tight mb-2 break-words">
         ADD YOUR<br />
         <span className="text-[#FFE234]">MEMBERS</span>
       </h2>
