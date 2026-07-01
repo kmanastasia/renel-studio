@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { MBTI_TYPES } from "@/lib/mbtiData";
+import { PERSONALITY_TYPES } from "@/lib/personalityData";
 
 const typeOrder = [
   "INTJ", "INTP", "ENTJ", "ENTP",
@@ -23,7 +23,7 @@ function getGroup(type) {
   return 'SP';
 }
 
-export default function MbtiTypeSelector({ selected, onSelect }) {
+export default function TypeSelector({ selected, onSelect }) {
   return (
     <motion.div
       initial={{ opacity: 0, height: 0 }}
@@ -33,7 +33,7 @@ export default function MbtiTypeSelector({ selected, onSelect }) {
     >
       <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5">
         {typeOrder.map((type) => {
-          const t = MBTI_TYPES[type];
+          const t = PERSONALITY_TYPES[type];
           const group = getGroup(type);
           const isSelected = selected === type;
           return (

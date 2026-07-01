@@ -6,7 +6,7 @@ function hashPair(t1, t2) {
 }
 
 
-export const MBTI_TYPES = {
+export const PERSONALITY_TYPES = {
   INTJ: {
     label: "INTJ", desc: "建築家",
     strengths: ["長期的な戦略思考", "独立心が高く自律的", "知識への飽くなき探求", "高い目標達成能力"],
@@ -184,8 +184,8 @@ export function calculateGroupChemistry(participants, relationship = 'friends') 
 }
 
 export function getPairComment(type1, type2, relationship, score) {
-  const t1 = MBTI_TYPES[type1];
-  const t2 = MBTI_TYPES[type2];
+  const t1 = PERSONALITY_TYPES[type1];
+  const t2 = PERSONALITY_TYPES[type2];
   
   const comments = {
     couple: {

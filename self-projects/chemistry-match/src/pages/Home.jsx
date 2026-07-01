@@ -9,12 +9,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import Marquee from "@/components/mbti/Marquee";
-import RelationshipSelector from "@/components/mbti/RelationshipSelector";
-import ParticipantForm from "@/components/mbti/ParticipantForm";
-import ResultsView from "@/components/mbti/ResultsView";
-import MbtiCharacter from "@/components/mbti/MbtiCharacter";
-import { MBTI_TYPES } from "@/lib/mbtiData";
+import Marquee from "@/components/personality/Marquee";
+import RelationshipSelector from "@/components/personality/RelationshipSelector";
+import ParticipantForm from "@/components/personality/ParticipantForm";
+import ResultsView from "@/components/personality/ResultsView";
+import PersonalityCharacter from "@/components/personality/PersonalityCharacter";
+import { PERSONALITY_TYPES } from "@/lib/personalityData";
 
 const TYPE_ORDER = [
   'INTJ', 'INTP', 'ENTJ', 'ENTP', // Analysts
@@ -63,7 +63,7 @@ export default function Home() {
       {/* Header */}
       <header className="px-5 py-4 flex items-center justify-between border-b border-border">
         <div className="font-display font-extrabold text-sm tracking-wider uppercase">
-          MBTI<span className="text-[#FF6B4A]">CM</span>
+          CHEMISTRY<span className="text-[#FF6B4A]">MATCH</span>
         </div>
         <div className="flex items-center gap-1">
           {[0, 1, 2].map((s) => (
@@ -99,8 +99,6 @@ export default function Home() {
                 transition={{ delay: 0.1 }}
                 className="font-display font-extrabold text-[48px] md:text-[80px] leading-[0.9] tracking-tighter mb-6 text-left w-full"
               >
-                MBTI
-                <br />
                 <span className="text-[#FFE234]">CHEMISTRY</span>
                 <br />
                 MATCH
@@ -165,7 +163,7 @@ export default function Home() {
                                       onClick={() => setSelectedType(type)}
                                       className="flex flex-col items-center gap-1 rounded-2xl p-2 sm:p-3 hover:bg-muted transition-colors"
                                     >
-                                      <MbtiCharacter
+                                      <PersonalityCharacter
                                         type={type}
                                         size={56}
                                         showLabel={false}
@@ -175,7 +173,7 @@ export default function Home() {
                                         {type}
                                       </span>
                                       <span className="text-[10px] text-muted-foreground leading-tight text-center">
-                                        {MBTI_TYPES[type].desc}
+                                        {PERSONALITY_TYPES[type].desc}
                                       </span>
                                     </button>
                                   ))}
@@ -195,7 +193,7 @@ export default function Home() {
                             </button>
 
                             <div className="flex flex-col items-center text-center mb-8">
-                              <MbtiCharacter
+                              <PersonalityCharacter
                                 type={selectedType}
                                 size={96}
                                 showLabel={false}
@@ -204,7 +202,7 @@ export default function Home() {
                               <h3 className="font-display font-extrabold text-4xl tracking-tight mt-4">
                                 {selectedType}
                               </h3>
-                              <p className="text-lg font-body font-bold mt-1">{MBTI_TYPES[selectedType].desc}</p>
+                              <p className="text-lg font-body font-bold mt-1">{PERSONALITY_TYPES[selectedType].desc}</p>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -213,7 +211,7 @@ export default function Home() {
                                   STRENGTHS
                                 </h4>
                                 <ul className="space-y-2">
-                                  {MBTI_TYPES[selectedType].strengths.map((s, i) => (
+                                  {PERSONALITY_TYPES[selectedType].strengths.map((s, i) => (
                                     <li key={i} className="flex items-start gap-2">
                                       <span className="font-display font-extrabold text-xs text-[#2ECC71] mt-0.5">
                                         {String(i + 1).padStart(2, "0")}
@@ -229,7 +227,7 @@ export default function Home() {
                                   WEAKNESSES
                                 </h4>
                                 <ul className="space-y-2">
-                                  {MBTI_TYPES[selectedType].weaknesses.map((w, i) => (
+                                  {PERSONALITY_TYPES[selectedType].weaknesses.map((w, i) => (
                                     <li key={i} className="flex items-start gap-2">
                                       <span className="font-display font-extrabold text-xs text-[#FF6B4A] mt-0.5">
                                         {String(i + 1).padStart(2, "0")}

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import MbtiCharacter from "./MbtiCharacter";
+import PersonalityCharacter from "./PersonalityCharacter";
 import CountUpScore from "./CountUpScore";
 
 function getScoreColor(score) {
@@ -21,7 +21,7 @@ export default function PairCard({ pair, comment, index }) {
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <MbtiCharacter type={pair.person1.type} size={56} showLabel={false} />
+          <PersonalityCharacter type={pair.person1.type} size={56} showLabel={false} />
           <div className="text-center">
             <div
               className="font-display font-extrabold text-2xl"
@@ -31,7 +31,7 @@ export default function PairCard({ pair, comment, index }) {
               <span className="text-sm">%</span>
             </div>
           </div>
-          <MbtiCharacter type={pair.person2.type} size={56} showLabel={false} />
+          <PersonalityCharacter type={pair.person2.type} size={56} showLabel={false} />
         </div>
       </div>
       <div className="flex items-center justify-between mb-2">

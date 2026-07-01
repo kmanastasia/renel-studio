@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, X, ArrowLeft } from "lucide-react";
-import { MBTI_TYPES } from "@/lib/mbtiData";
-import MbtiCharacter from "./MbtiCharacter";
-import MbtiTypeSelector from "./MbtiTypeSelector";
+import { PERSONALITY_TYPES } from "@/lib/personalityData";
+import PersonalityCharacter from "./PersonalityCharacter";
+import TypeSelector from "./TypeSelector";
 
 export default function ParticipantForm({ participants, setParticipants, onBack }) {
   const [editingIndex, setEditingIndex] = useState(null);
@@ -42,7 +42,7 @@ export default function ParticipantForm({ participants, setParticipants, onBack 
         <span className="text-[#FFE234]">MEMBERS</span>
       </h2>
       <p className="text-muted-foreground mb-8 text-sm">
-        参加者の名前とMBTIタイプを入力（2〜6人）
+        参加者の名前とタイプを入力（2〜6人）
       </p>
 
       <div className="space-y-4">
@@ -58,7 +58,7 @@ export default function ParticipantForm({ participants, setParticipants, onBack 
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 pt-1">
                   {p.type ? (
-                    <MbtiCharacter type={p.type} size={64} showLabel={false} />
+                    <PersonalityCharacter type={p.type} size={64} showLabel={false} />
                   ) : (
                     <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center">
                       <span className="text-2xl text-muted-foreground font-display font-extrabold">
@@ -85,7 +85,7 @@ export default function ParticipantForm({ participants, setParticipants, onBack 
                     )}
                   </div>
                   {editingIndex === i ? (
-                    <MbtiTypeSelector
+                    <TypeSelector
                       selected={p.type}
                       onSelect={(type) => {
                         updateParticipant(i, "type", type);
@@ -101,7 +101,7 @@ export default function ParticipantForm({ participants, setParticipants, onBack 
                           : "border-dashed border-muted-foreground text-muted-foreground hover:border-foreground hover:text-foreground"
                       }`}
                     >
-                      {p.type ? `${p.type} · ${MBTI_TYPES[p.type]?.desc}` : "タイプを選択"}
+                      {p.type ? `${p.type} · ${PERSONALITY_TYPES[p.type]?.desc}` : "タイプを選択"}
                     </button>
                   )}
                 </div>

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import MbtiCharacter from "./MbtiCharacter";
+import PersonalityCharacter from "./PersonalityCharacter";
 import CountUpScore from "./CountUpScore";
 import PairCard from "./PairCard";
 import Marquee from "./Marquee";
@@ -12,7 +12,7 @@ import {
   getPairComment,
   getGroupInsights,
   RELATIONSHIP_TYPES,
-} from "@/lib/mbtiData";
+} from "@/lib/personalityData";
 import MemberProfileCard from "./MemberProfileCard";
 
 function getScoreLabel(score) {
@@ -28,7 +28,7 @@ export default function ResultsView({ participants, relationship, onReset }) {
   const relInfo = RELATIONSHIP_TYPES.find((r) => r.id === relationship);
   const scoreLabel = getScoreLabel(avgScore);
 
-  const shareText = `【MBTI Chemistry Match】\n${participants.map(p => `${p.name}(${p.type})`).join(' × ')} の相性は ${avgScore}% — ${scoreLabel.text}！`;
+  const shareText = `【Chemistry Match】\n${participants.map(p => `${p.name}(${p.type})`).join(' × ')} の相性は ${avgScore}% — ${scoreLabel.text}！`;
 
   const handleXShare = () => {
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
@@ -97,10 +97,10 @@ export default function ResultsView({ participants, relationship, onReset }) {
             {participants.map((p, i) => (
               <div key={i} className="flex flex-col items-center">
                 <div className="block md:hidden">
-                  <MbtiCharacter type={p.type} size={64} />
+                  <PersonalityCharacter type={p.type} size={64} />
                 </div>
                 <div className="hidden md:block">
-                  <MbtiCharacter type={p.type} size={96} />
+                  <PersonalityCharacter type={p.type} size={96} />
                 </div>
                 <p className="font-body font-bold text-xs mt-1 truncate max-w-[80px]">{p.name}</p>
               </div>

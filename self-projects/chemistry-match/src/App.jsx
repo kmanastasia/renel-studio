@@ -47,7 +47,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClientInstance}>
-      <Router>
+      <Router basename="/self-projects/chemistry-match">
         <ScrollToTop />
         {hasBase44 ? (
           <AuthProvider>

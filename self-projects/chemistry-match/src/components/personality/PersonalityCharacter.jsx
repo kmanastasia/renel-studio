@@ -2,14 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Avatar } from "@humation/react";
 import { humation1 } from "@humation/assets-humation-1";
-import { MBTI_TYPES } from "@/lib/mbtiData";
+import { PERSONALITY_TYPES } from "@/lib/personalityData";
 
-// MBTI 4グループ × 個性に合わせた配色
+// 16タイプ 4グループ × 個性に合わせた配色
 // NT (Analysts): クール系ブルー・ネイビー（知的・論理的）
 // NF (Diplomats): ウォーム系パープル・コーラル（共感・理想）
 // SJ (Sentinels): アース系ブラウン・グリーン（安定・誠実）
 // SP (Explorers): ビビッド系オレンジ・ピンク（行動・自由）
-const MBTI_COLORS = {
+const TYPE_COLORS = {
   INTJ: { hair: '1a1a2e', clothes: '16213e', skin: 'f4c7a0', bottom: '0f3460' },
   INTP: { hair: '3d5a80', clothes: '293241', skin: 'f4c7a0', bottom: '1b2a4a' },
   ENTJ: { hair: '1A1A2E', clothes: '0f3460', skin: 'deb887', bottom: '16213e' },
@@ -31,10 +31,10 @@ const MBTI_COLORS = {
   ESFP: { hair: 'd81b60', clothes: 'f06292', skin: 'ffd3b6', bottom: 'c2185b' },
 };
 
-export default function MbtiCharacter({ type, size = 96, showLabel = true, animate = true }) {
-  if (!type || !MBTI_TYPES[type]) return null;
-  const t = MBTI_TYPES[type];
-  const colors = MBTI_COLORS[type] ?? {};
+export default function PersonalityCharacter({ type, size = 96, showLabel = true, animate = true }) {
+  if (!type || !PERSONALITY_TYPES[type]) return null;
+  const t = PERSONALITY_TYPES[type];
+  const colors = TYPE_COLORS[type] ?? {};
 
   const Wrapper = animate ? motion.div : "div";
   const wrapperProps = animate

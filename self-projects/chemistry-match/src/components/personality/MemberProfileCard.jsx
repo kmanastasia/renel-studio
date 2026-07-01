@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, Zap, AlertTriangle } from "lucide-react";
-import MbtiCharacter from "./MbtiCharacter";
-import { MBTI_TYPES } from "@/lib/mbtiData";
+import PersonalityCharacter from "./PersonalityCharacter";
+import { PERSONALITY_TYPES } from "@/lib/personalityData";
 
 export default function MemberProfileCard({ participant, index }) {
   const [open, setOpen] = useState(false);
-  const t = MBTI_TYPES[participant.type];
+  const t = PERSONALITY_TYPES[participant.type];
   if (!t) return null;
 
   return (
@@ -21,7 +21,7 @@ export default function MemberProfileCard({ participant, index }) {
         className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/40 transition-colors"
       >
         <div className="flex-shrink-0">
-          <MbtiCharacter type={participant.type} size={56} showLabel={false} animate={false} />
+          <PersonalityCharacter type={participant.type} size={56} showLabel={false} animate={false} />
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-display font-extrabold text-sm tracking-wider">

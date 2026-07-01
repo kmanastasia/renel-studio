@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
-import { RELATIONSHIP_TYPES } from "@/lib/mbtiData";
+import { RELATIONSHIP_TYPES } from "@/lib/personalityData";
 
 export default function RelationshipSelector({ selected, onSelect, onBack }) {
   return (
