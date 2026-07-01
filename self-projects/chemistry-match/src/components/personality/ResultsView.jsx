@@ -242,6 +242,32 @@ export default function ResultsView({ participants, relationship, onReset }) {
           </div>
         </div>
 
+        {/* 投げ銭 */}
+        <div style={{ textAlign: "center", margin: "32px 0" }}>
+          <p style={{ fontSize: 14, color: "#6b6b6b", marginBottom: 12 }}>
+            この診断、面白かったですか？<br />個人開発で作ってます☕
+          </p>
+          <a
+            href="https://ofuse.me/0b7e0792"
+            target="_blank"
+            rel="noopener"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "#C8794B",
+              color: "#fff",
+              fontWeight: 700,
+              padding: "12px 24px",
+              borderRadius: 999,
+              textDecoration: "none",
+              boxShadow: "0 4px 12px rgba(200,121,75,.35)",
+            }}
+          >
+            ☕ 開発者にコーヒーを贈る
+          </a>
+        </div>
+
         {/* もう一度やる */}
         <Button
           onClick={onReset}
