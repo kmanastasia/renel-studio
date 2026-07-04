@@ -941,7 +941,7 @@ body::before {
   gap: 1.5rem;
   padding: 2.5rem 3rem;
   border: 1px solid var(--border);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-xl);
 }
 
 .works-upcoming__badge {
