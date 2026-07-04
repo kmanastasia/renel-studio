@@ -414,7 +414,7 @@
         const data = await res.json();
         if (data.success) {
           form.reset();
-          window.location.href = "https://renel-studio.com/thank-you";
+          window.location.href = "thank-you/";
         } else {
           throw new Error(data.message || "error");
         }
