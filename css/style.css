@@ -412,15 +412,6 @@ body::before {
   z-index: 1;
 }
 
-.hero__eyebrow {
-  font-size: var(--fs-small);
-  letter-spacing: var(--ls-caps);
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 500;
-  margin-bottom: 1.5rem;
-}
-
 .hero-title {
   font-family: var(--font-display);
   font-weight: 800;

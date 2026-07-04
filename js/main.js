@@ -229,10 +229,9 @@
     const chars = hero.querySelectorAll(".hero-title .char");
     const sub = hero.querySelector(".hero-sub");
     const cta = hero.querySelector(".hero-cta");
-    const eyebrow = hero.querySelector(".hero__eyebrow");
 
     if (!hasGSAP || prefersReduced) {
-      [eyebrow, sub, cta].forEach(function (el) {
+      [sub, cta].forEach(function (el) {
         if (el) el.style.opacity = "1";
       });
       chars.forEach(function (c) {
@@ -243,9 +242,6 @@
 
     const tl = gsap.timeline();
     if (bg) tl.from(bg, { opacity: 0, duration: 0.8 });
-    if (eyebrow) {
-      tl.from(eyebrow, { y: -10, opacity: 0, duration: 0.5, ease: "expo.out" }, 0.15);
-    }
     if (logo) {
       tl.from(logo, { y: -20, opacity: 0, duration: 0.6, ease: "expo.out" }, 0.2);
     }
