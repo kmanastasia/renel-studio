@@ -1,5 +1,5 @@
 /*
- * 水の友だち — service-worker.js
+ * お水ごくごく — service-worker.js
  *
  *  - push イベントで必ず showNotification を呼ぶ（サイレントプッシュはブラウザ側のペナルティ対象）
  *  - notificationclick でアプリを開く（既に開いていればそのタブをフォーカス）
@@ -84,7 +84,7 @@ self.addEventListener('push', function (event) {
   };
 
   event.waitUntil(
-    self.registration.showNotification(payload.title || '水の友だち', options)
+    self.registration.showNotification(payload.title || 'お水ごくごく', options)
   );
 });
 

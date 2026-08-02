@@ -1,5 +1,5 @@
 /*
- * 水の友だち — app.js
+ * お水ごくごく — app.js
  *
  * 責務:
  *  - 摂取量の記録（localStorage / 日付が変わったら自動リセット）
@@ -655,11 +655,11 @@
 
     // SW経由のほうがモバイルでの表示が安定する
     if (swRegistration && swRegistration.showNotification) {
-      swRegistration.showNotification('水の友だち', options).catch(function () {
-        try { new Notification('水の友だち', options); } catch (e) { /* noop */ }
+      swRegistration.showNotification('お水ごくごく', options).catch(function () {
+        try { new Notification('お水ごくごく', options); } catch (e) { /* noop */ }
       });
     } else {
-      try { new Notification('水の友だち', options); } catch (e) { /* noop */ }
+      try { new Notification('お水ごくごく', options); } catch (e) { /* noop */ }
     }
   }
 
