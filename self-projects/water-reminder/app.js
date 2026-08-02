@@ -17,10 +17,10 @@
 
   // VAPID 公開鍵。生成手順は outputs/build_notes.md 参照。
   // 秘密鍵はここには絶対に置かない（Cloudflare Workers の Secret で管理）。
-  var VAPID_PUBLIC_KEY = 'YOUR_VAPID_PUBLIC_KEY';
+  var VAPID_PUBLIC_KEY = 'BEP6hJT1eaF-KryMrFVzNkPo2HyO1n2gkTZiCxXi82U0aTMg3M_URLBhsgkRhnVfry1H_PFJy_j1t03WK7Orj7I';
 
   // Cloudflare Workers のエンドポイント（例: https://water-reminder-push.xxx.workers.dev）
-  var API_BASE = 'https://YOUR_WORKER_SUBDOMAIN.workers.dev';
+  var API_BASE = 'https://water-reminder-push.k-murata0301.workers.dev';
 
   // プレースホルダのままなら本番Pushは無効。デモモードのみで動く。
   var PUSH_CONFIGURED =
