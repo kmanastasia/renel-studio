@@ -6,7 +6,7 @@
     <title>Works — Renel. Studio</title>
     <meta
       name="description"
-      content="お野菜旅・Renel Studio・個人制作の実績一覧。事業ごとに絞り込んで閲覧できます。"
+      content="AI映像ユニット It&#39;s color STUDIO と Renel. Studio / REN の映像作品ポートフォリオ。"
     />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,9 +28,10 @@
         <nav>
           <ul class="nav__links" id="navLinks">
             <li><a href="../index.html#about">About</a></li>
-            <li><a href="../index.html#business">Business</a></li>
+            <li><a href="../index.html#me">Me</a></li>
             <li><a href="../works/index.html">Works</a></li>
-            <li><a href="../self-projects/index.html">Self-Projects</a></li>
+            <li><a href="../index.html#services">Services</a></li>
+            <li><a href="../index.html#business">Business</a></li>
             <li><a href="../index.html#contact">Contact</a></li>
           </ul>
         </nav>
@@ -46,131 +47,102 @@
           <a href="../index.html" class="back-link is-interactive">← Home</a>
           <h1 class="page-head__title">Works</h1>
           <p class="page-head__lead">
-            お野菜旅と Renel Studio、そして個人制作。
-            これまでに手がけた仕事を事業ごとに絞り込んで見られます。
+            映像・音楽・アプリ。すべて生成AIと一緒につくっています。
+            映像はユニット <b class="unit-word">It's color STUDIO</b> の作品と、個人制作（Solo）の作品があります。
           </p>
+          <dl class="stats">
+            <div><dt>Films</dt><dd data-stat="films">0</dd></div>
+            <div><dt>Tracks</dt><dd data-stat="tracks">0</dd></div>
+            <div><dt>Apps</dt><dd data-stat="apps">0</dd></div>
+            <div><dt>AI Tools</dt><dd data-stat="tools">0</dd></div>
+          </dl>
         </div>
       </section>
 
-      <section class="section" style="padding-top: 20px">
-        <div class="container">
-          <div class="filters" id="filters">
-            <button class="filter-btn is-active is-interactive" data-filter="all">
-              All
-            </button>
-            <button class="filter-btn is-interactive" data-filter="yasai">
-              お野菜旅
-            </button>
-            <button class="filter-btn is-interactive" data-filter="studio">
-              Studio
-            </button>
-            <button class="filter-btn is-interactive" data-filter="projects">
-              Projects
-            </button>
-          </div>
-
-          <div class="card-grid" id="cardGrid">
-            <article class="card is-interactive" data-category="yasai">
-              <div class="card__media card__media--green" data-tag="Yasai-Tabi"></div>
-              <div class="card__body">
-                <h3 class="card__title">収穫体験ツアー設計</h3>
-                <p class="card__desc">
-                  旬の畑をめぐる日帰り体験プログラムの企画と運営フローを構築。
-                </p>
-                <div class="card__meta"><span>体験設計</span><span>2026</span></div>
-              </div>
-            </article>
-
-            <article class="card is-interactive" data-category="yasai">
-              <div class="card__media card__media--terra" data-tag="Yasai-Tabi"></div>
-              <div class="card__body">
-                <h3 class="card__title">産地ブランディング</h3>
-                <p class="card__desc">
-                  特定産地の魅力を言語化し、ロゴ・パッケージ・物語を一貫設計。
-                </p>
-                <div class="card__meta"><span>Branding</span><span>2026</span></div>
-              </div>
-            </article>
-
-            <article class="card is-interactive" data-category="studio">
-              <div class="card__media card__media--purple" data-tag="Studio"></div>
-              <div class="card__body">
-                <h3 class="card__title">ブランドサイト制作</h3>
-                <p class="card__desc">
-                  食品スタートアップの世界観を定義し、Web サイトを実装まで。
-                </p>
-                <div class="card__meta"><span>Web / Design</span><span>2026</span></div>
-              </div>
-            </article>
-
-            <article class="card is-interactive" data-category="studio">
-              <div class="card__media card__media--terra" data-tag="Studio"></div>
-              <div class="card__body">
-                <h3 class="card__title">プロモーション映像</h3>
-                <p class="card__desc">
-                  産地の風景を主役にした短編プロモーション映像を企画・制作。
-                </p>
-                <div class="card__meta"><span>Movie</span><span>2026</span></div>
-              </div>
-            </article>
-
-            <article class="card is-interactive" data-category="studio">
-              <div class="card__media card__media--gold" data-tag="Studio"></div>
-              <div class="card__body">
-                <h3 class="card__title">イラストシリーズ</h3>
-                <p class="card__desc">
-                  季節の野菜をモチーフにしたオリジナルイラストとグッズ展開。
-                </p>
-                <div class="card__meta"><span>Illustration</span><span>2026</span></div>
-              </div>
-            </article>
-
-            <article class="card is-interactive" data-category="studio">
-              <div class="card__media card__media--slate" data-tag="Studio"></div>
-              <div class="card__body">
-                <h3 class="card__title">SNSマーケティング支援</h3>
-                <p class="card__desc">
-                  立ち上げ期ブランドの SNS 運用設計と週次の分析レポート運用。
-                </p>
-                <div class="card__meta"><span>Marketing</span><span>2026</span></div>
-              </div>
-            </article>
-
-            <article class="card is-interactive" data-category="projects">
-              <div class="card__media card__media--gold" data-tag="Project"></div>
-              <div class="card__body">
-                <h3 class="card__title">ミクロ経済学ラボ</h3>
-                <p class="card__desc">
-                  価格弾力性や代替効果を可視化する、自分用の学習計算サイト。
-                </p>
-                <div class="card__meta"><span>FastAPI / React</span><span>2026</span></div>
-              </div>
-            </article>
-
-            <article class="card is-interactive" data-category="projects">
-              <div class="card__media card__media--slate" data-tag="Project"></div>
-              <div class="card__body">
-                <h3 class="card__title">ComfyUI Studio</h3>
-                <p class="card__desc">
-                  AnimateDiff で動画を生成する Web アプリ。VG エディタ搭載。
-                </p>
-                <div class="card__meta"><span>FastAPI / React</span><span>2026</span></div>
-              </div>
-            </article>
-
-            <article class="card is-interactive" data-category="projects">
-              <div class="card__media card__media--purple" data-tag="Project"></div>
-              <div class="card__body">
-                <h3 class="card__title">Connecting the Dots</h3>
-                <p class="card__desc">
-                  自分の活動を点と線で可視化する、四半期ごとのデータ可視化作品。
-                </p>
-                <div class="card__meta"><span>Data Viz</span><span>2026 Q2</span></div>
-              </div>
-            </article>
+      <div data-tabs data-tabs-hash>
+        <div class="tabbar-wrap">
+          <div class="container">
+            <div class="tabbar" role="tablist" aria-label="作品の種類">
+              <button class="tabbar__btn is-active is-interactive" role="tab" aria-selected="true" data-tab="film">
+                <span class="tabbar__en">Film</span><span class="tabbar__ja">AI映像</span>
+              </button>
+              <button class="tabbar__btn is-interactive" role="tab" aria-selected="false" data-tab="music">
+                <span class="tabbar__en">Music</span><span class="tabbar__ja">Naked Lotus</span>
+              </button>
+              <button class="tabbar__btn is-interactive" role="tab" aria-selected="false" data-tab="apps">
+                <span class="tabbar__en">Apps</span><span class="tabbar__ja">1日1アプリ</span>
+              </button>
+            </div>
           </div>
         </div>
-      </section>
+
+        <!-- Film -->
+        <div data-panel="film" role="tabpanel">
+          <section class="section works-featured-wrap">
+            <div class="container" id="worksFeatured"></div>
+          </section>
+
+          <section class="section unit" id="unit">
+            <div class="container">
+              <div class="unit__inner">
+                <div class="unit__spectrum" aria-hidden="true"></div>
+                <span class="section__label">Unit</span>
+                <h2 class="unit__name">It's color <span>STUDIO</span></h2>
+                <p class="unit__lead" id="unitLead"></p>
+                <ul class="unit__members" id="unitMembers"></ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" style="padding-top: 20px">
+            <div class="container">
+              <div class="preview-head">
+                <div>
+                  <span class="section__label">Film Index</span>
+                  <h2 class="section__title">すべての映像</h2>
+                </div>
+              </div>
+              <div class="filters" id="filters">
+                <button class="filter-btn is-active is-interactive" data-filter="all">All</button>
+                <button class="filter-btn filter-btn--unit is-interactive" data-filter="unit">It's color STUDIO</button>
+                <button class="filter-btn is-interactive" data-filter="solo">Solo</button>
+              </div>
+              <div class="card-grid film-grid" id="cardGrid" data-works data-base="../"></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Music -->
+        <div data-panel="music" role="tabpanel" hidden>
+          <section class="section music">
+            <div class="container">
+              <div id="musicBlock" data-base="../" data-works-href="#film-"></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Apps -->
+        <div data-panel="apps" role="tabpanel" hidden>
+          <section class="section">
+            <div class="container">
+              <p class="panel-lead">
+                思いついたら、その日のうちにAIと形にする「1日1アプリ」。ぜんぶブラウザでそのまま遊べます。
+              </p>
+              <div class="card-grid" data-apps data-base="../self-projects/"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- Player modal -->
+      <div class="film-modal" id="filmModal" role="dialog" aria-modal="true" aria-label="作品プレイヤー" data-base="../" hidden>
+        <div class="film-modal__backdrop" data-close></div>
+        <div class="film-modal__panel">
+          <button class="film-modal__close is-interactive" data-close aria-label="閉じる">×</button>
+          <div class="film-modal__frame"></div>
+          <div class="film-modal__info"></div>
+        </div>
+      </div>
     </main>
 
     <footer class="footer">
@@ -181,19 +153,36 @@
           >
           <div class="footer__links">
             <a href="../index.html#about" class="is-interactive">About</a>
-            <a href="../index.html#business" class="is-interactive">Business</a>
             <a href="../works/index.html" class="is-interactive">Works</a>
-            <a href="../self-projects/index.html" class="is-interactive">Self-Projects</a>
+            <a href="../index.html#services" class="is-interactive">Services</a>
+            <a href="../index.html#business" class="is-interactive">Business</a>
             <a href="../index.html#contact" class="is-interactive">Contact</a>
           </div>
         </div>
-        <p class="footer__copy">© 2026 Renel. Studio / Karen Murata. All rights reserved.</p>
+        <p class="footer__copy">© 2026 Renel. Studio / REN. All rights reserved.</p>
       </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
+    <script src="../js/works-data.js"></script>
+    <script src="../js/works.js"></script>
+    <script>
+      (function () {
+        var u = window.RENEL_WORKS && window.RENEL_WORKS.unit;
+        if (!u) return;
+        var clean = function (s) { return String(s).replace(/[<>&"]/g, ""); };
+        var lead = document.getElementById("unitLead");
+        lead.textContent = u.lead || "";
+        lead.hidden = !u.lead;
+        document.getElementById("unitMembers").innerHTML = u.members
+          .map(function (m) {
+            return "<li><b>" + clean(m.name) + "</b></li>";
+          })
+          .join('<li class="unit__x" aria-hidden="true">×</li>');
+      })();
+    </script>
     <script src="../js/main.js"></script>
   </body>
 </html>

@@ -4,15 +4,15 @@ Karen のポートフォリオサイト（GitHub: kmanastasia/renel-studio）。
 
 ## Self-Projects 追加ルール【必須】
 
-`self-projects/` 配下に新しいプロジェクトフォルダを追加したら、**必ず次の3点をセットで行う**こと（片方だけの更新は禁止）:
+`self-projects/` 配下に新しいプロジェクトフォルダを追加したら、**必ず次の2点をセットで行う**こと（片方だけの更新は禁止）:
 
-1. **`index.html`（トップページ）** の `#projects` セクション内 `.card-grid` にカードを追加する
-2. **`self-projects/index.html`** の `#cardGrid` にも同じカードを追加する
-3. プロジェクトフォルダ直下に **`screenshot.png`** を置く（カードのサムネイル。**16:10** で撮影する — `.card__media` の aspect-ratio に一致させ、切れを防ぐ）
+1. **`js/works-data.js`** の `apps` 配列の**先頭**（最新順）に1件追加する（`id` = フォルダ名）
+   → トップの Apps タブ・Works の Apps タブ・Self-Projects ページの3か所に自動で出る（HTML は触らない）
+2. プロジェクトフォルダ直下に **`screenshot.png`** を置く（カードのサムネイル。**16:10** で撮影する — `.card__media` の aspect-ratio に一致させ、切れを防ぐ）
 
-- カードのマークアップは既存カード（life-timer 等）をコピーして使う。トップページ側は `class="card reveal is-interactive"`、self-projects 側は `class="card is-interactive" data-category="app"`（reveal なし）で、パスの起点も異なる点に注意。
-- 新しいカードは原則グリッドの**先頭**（最新順）に置く。
-- カード文言: タイトル / 1〜2文の説明 / `card__meta` に技術スタックと年。
+- 文言: `title` / `desc`（1〜2文）/ `stack`（技術スタック）/ `year`。日本語タイトルは `jpTitle: true`。
+- 映像（`works`）・曲（`music`）・AI工程（`workflow`）・サービス（`services`）も同じ `js/works-data.js` で管理する。書き方はファイル冒頭のコメント参照。
+- 描画は `js/works.js`。各ページで `works-data.js` → `works.js` → `main.js` の順に読み込むこと。
 
 ## デプロイ形式
 

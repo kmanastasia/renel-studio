@@ -6,7 +6,7 @@
     <title>Self-Projects — Renel. Studio</title>
     <meta
       name="description"
-      content="1日1アプリをはじめとした個人制作プロジェクトの実験場。Renel. Studio / Karen Murata の手を動かす記録。"
+      content="1日1アプリをはじめとした個人制作プロジェクトの実験場。Renel. Studio / REN の手を動かす記録。"
     />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,9 +28,10 @@
         <nav>
           <ul class="nav__links" id="navLinks">
             <li><a href="../index.html#about">About</a></li>
-            <li><a href="../index.html#business">Business</a></li>
+            <li><a href="../index.html#me">Me</a></li>
             <li><a href="../works/index.html">Works</a></li>
-            <li><a href="../self-projects/index.html">Self-Projects</a></li>
+            <li><a href="../index.html#services">Services</a></li>
+            <li><a href="../index.html#business">Business</a></li>
             <li><a href="../index.html#contact">Contact</a></li>
           </ul>
         </nav>
@@ -54,48 +55,7 @@
 
       <section class="section" style="padding-top: 20px">
         <div class="container">
-          <div class="card-grid" id="cardGrid">
-            <a href="water-reminder" class="card is-interactive" data-category="app">
-              <div class="card__media card__media--screenshot" style="background-image: url('water-reminder/screenshot.png')" data-tag="1日1アプリ"></div>
-              <div class="card__body">
-                <h3 class="card__title" style="font-family: var(--font-sans); font-weight: 800">お水ごくごく</h3>
-                <p class="card__desc">
-                  詰めてこない水分補給リマインダーPWA。「水飲んだ？」とゆるく声をかけるだけ。罪悪感ゼロの声かけと、飲むとちょっと嬉しいゲージで続けられます。
-                </p>
-                <div class="card__meta"><span>Vanilla JS / PWA</span><span>2026</span></div>
-              </div>
-            </a>
-            <a href="uragiri-oden" class="card is-interactive" data-category="app">
-              <div class="card__media card__media--screenshot" style="background-image: url('uragiri-oden/screenshot.png')" data-tag="1日1アプリ"></div>
-              <div class="card__body">
-                <h3 class="card__title" style="font-family: var(--font-sans); font-weight: 800">裏切りおでん</h3>
-                <p class="card__desc">
-                  ナッシュ均衡を遊んで学ぶレトロRPG風ゲーム。同時ゲーム・逐次ゲーム・利得表クイズの3モードで、「得なのに抜け出せない場所」を体感できます。
-                </p>
-                <div class="card__meta"><span>React / Vite</span><span>2026</span></div>
-              </div>
-            </a>
-            <a href="life-timer" class="card is-interactive" data-category="app">
-              <div class="card__media card__media--screenshot" style="background-image: url('life-timer/screenshot.png')" data-tag="1日1アプリ"></div>
-              <div class="card__body">
-                <h3 class="card__title">Life Timer</h3>
-                <p class="card__desc">
-                  人生であなたがやり遂げたいこと、大切な人と過ごす時間は意外と少ない。それを実感させてくれます。
-                </p>
-                <div class="card__meta"><span>Vanilla JS</span><span>2026</span></div>
-              </div>
-            </a>
-            <a href="chemistry-match" class="card is-interactive" data-category="app">
-              <div class="card__media card__media--screenshot" style="background-image: url('chemistry-match/screenshot.png')" data-tag="1日1アプリ"></div>
-              <div class="card__body">
-                <h3 class="card__title">Chemistry Match</h3>
-                <p class="card__desc">
-                  16タイプで、チームや友人との相性を診断。グループ全体のケミストリーをスコアで可視化します。
-                </p>
-                <div class="card__meta"><span>React</span><span>2026</span></div>
-              </div>
-            </a>
-          </div>
+          <div class="card-grid" id="cardGrid" data-apps data-base=""></div>
         </div>
       </section>
     </main>
@@ -108,19 +68,21 @@
           >
           <div class="footer__links">
             <a href="../index.html#about" class="is-interactive">About</a>
-            <a href="../index.html#business" class="is-interactive">Business</a>
             <a href="../works/index.html" class="is-interactive">Works</a>
-            <a href="../self-projects/index.html" class="is-interactive">Self-Projects</a>
+            <a href="../index.html#services" class="is-interactive">Services</a>
+            <a href="../index.html#business" class="is-interactive">Business</a>
             <a href="../index.html#contact" class="is-interactive">Contact</a>
           </div>
         </div>
-        <p class="footer__copy">© 2026 Renel. Studio / Karen Murata. All rights reserved.</p>
+        <p class="footer__copy">© 2026 Renel. Studio / REN. All rights reserved.</p>
       </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
+    <script src="../js/works-data.js"></script>
+    <script src="../js/works.js"></script>
     <script src="../js/main.js"></script>
   </body>
 </html>
