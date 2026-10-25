@@ -132,8 +132,9 @@ window.RENEL_WORKS = {
       credit: "solo",
       year: "2026",
       kind: "Short Film",
+      tools: ["TapNow", "ChatGPT Image", "Seedance"],
       desc: "",
-      hue: 30, // TODO: サムネ画像をもらったら poster に差し替え
+      poster: "assets/works/my-gang-cat/poster.jpg",
       video: { type: "link", url: "https://app.tapnow.ai/home/taptv/video/c3f0a246-fe7d-4031-a15b-348efd8078df", label: "TapNow で見る" },
     },
     {
