@@ -17,6 +17,15 @@
       rel="stylesheet"
     />
 
+    <!-- REN 3D 用（.glb を指定したときだけ three.js を読み込む） -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -97,7 +106,7 @@
               やりたかったことが、「できること」の形に削られていく。<br>
               わたしは、それをもう一度あたためたい。
             </p>
-            <p class="reveal">再生する（Renew）。つなぎ直す。</p>
+            <p class="reveal">再生する（Renew）。つなぎ直す（Reborn）。</p>
             <p class="muted reveal">それが、Renel. にこめた、たったひとつの願い。</p>
             <div class="about__divider reveal"></div>
             <p class="muted reveal">だから、同じ目線で「考える」と「つくる」を繰り返す。</p>
@@ -153,6 +162,7 @@
                 <a href="https://www.instagram.com/kmanastasia" class="social-link is-interactive" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
                 <a href="https://x.com/km_anastasia" class="social-link is-interactive" target="_blank" rel="noopener noreferrer">X ↗</a>
                 <a href="https://note.com/km_anastasia" class="social-link is-interactive" target="_blank" rel="noopener noreferrer">note ↗</a>
+                <a href="https://www.youtube.com/@km_anastasia" class="social-link is-interactive" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
               </div>
             </div>
           </div>
@@ -228,6 +238,13 @@
                 <line x1="16" y1="13" x2="8" y2="13"/>
                 <line x1="16" y1="17" x2="8" y2="17"/>
                 <line x1="10" y1="9" x2="8" y2="9"/>
+              </svg>
+              <span>@km_anastasia</span>
+            </a>
+            <a href="https://www.youtube.com/@km_anastasia" class="social-link is-interactive" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="5" width="20" height="14" rx="4"/>
+                <path d="M10 9.5v5l4.5-2.5z" fill="currentColor" stroke="none"/>
               </svg>
               <span>@km_anastasia</span>
             </a>
@@ -342,5 +359,11 @@
     <script src="js/works-data.js"></script>
     <script src="js/works.js"></script>
     <script src="js/main.js"></script>
+    <!-- REN: TOPページ専用。
+         画像にするとき: data-img-idle / data-img-surprised / data-img-relief に3枚とも入れる（例 assets/ren/idle.png）
+         3D にするとき: data-glb="assets/ren/ren.glb"（3D が読めたら画像/SVG より優先） -->
+    <script src="js/ren-character.js" id="renScript"
+      data-img-idle="assets/ren/idle.png" data-img-surprised="assets/ren/surprised.png" data-img-relief="assets/ren/relief.png"
+      data-glb=""></script>
   </body>
 </html>

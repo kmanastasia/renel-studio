@@ -2472,3 +2472,259 @@ body::before {
     z-index: 2;
   }
 }
+
+/* =========================================================
+   REN — スクロール連動キャラ（TOPページ専用 / js/ren-character.js）
+   ========================================================= */
+#ren {
+  /* キャラの配色（デモの値。暗い背景用に線色だけ調整） */
+  --hair: #b8a58a;
+  --hair-in: #2b2521;
+  --skin: #f1d7c4;
+  --tee: #1e1d1c;
+  --jean: #4b4745;
+  --shoe: #e9e4dc;
+  --silver: #b9b4ac;
+  --line-ink: #1c1b1a;
+
+  position: fixed;
+  left: max(8px, env(safe-area-inset-left, 0px));
+  top: 50%;
+  width: clamp(90px, 16vw, 180px);
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 50; /* 本文より上・ナビ(1000)やモーダルより下 */
+  transition: opacity 0.3s ease;
+}
+#ren svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+#ren .ren-shadow {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  bottom: -6px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  opacity: 0.12;
+  filter: blur(4px);
+}
+#ren .ren-face {
+  display: none;
+}
+#ren[data-face="idle"] .f-idle,
+#ren[data-face="surprised"] .f-surprised,
+#ren[data-face="relief"] .f-relief {
+  display: block;
+}
+/* 3D(.glb) が読み込めたら SVG と入れ替え */
+#ren .ren-canvas {
+  display: none;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 120 / 200;
+}
+#ren.is-3d .ren-canvas {
+  display: block;
+}
+#ren.is-3d svg {
+  display: none;
+}
+/* 別ページへ移るとき */
+#ren.is-leaving {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  #ren {
+    transform: translateY(-50%) !important;
+  }
+}
+
+/* 調整パネル（?ren-debug=1） */
+#renPanel {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right, 0px));
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  z-index: 60;
+  width: 200px;
+  padding: 12px 14px;
+  font-size: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+}
+#renPanel label {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 8px;
+  margin-bottom: 8px;
+}
+#renPanel input {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: #ef7b5a;
+}
+#renPanel .st {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+#renPanel summary {
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+/* REN 画像モード（表情ごとの透過PNGを重ねて、data-face で切り替え） */
+#ren .ren-imgs {
+  position: relative;
+}
+#ren .ren-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+#ren .ren-img:not(:first-child) {
+  position: absolute;
+  inset: 0;
+}
+#ren .ren-img {
+  visibility: hidden;
+}
+#ren[data-face="idle"] .ren-img.f-idle,
+#ren[data-face="surprised"] .ren-img.f-surprised,
+#ren[data-face="relief"] .ren-img.f-relief {
+  visibility: visible;
+}
+#ren.is-img svg {
+  display: none;
+}
+#ren.is-3d .ren-imgs {
+  display: none;
+}
+/* 画像モードは3枚を同じ枠（驚きポーズの腕まで入る広め）で切り出しているので、少し大きめに */
+#ren.is-img {
+  width: clamp(110px, 20vw, 240px);
+}
+/* REN の基準位置（PC: 画面の縦中央 / スマホ: 左下） */
+#ren {
+  --ren-base: -50%;
+  transform: translateY(var(--ren-base));
+}
+@media (prefers-reduced-motion: reduce) {
+  #ren {
+    transform: translateY(var(--ren-base)) !important;
+  }
+}
+@media (max-width: 767px) {
+  #ren,
+  #ren.is-img {
+    --ren-base: 0%;
+    top: auto;
+    bottom: max(10px, env(safe-area-inset-bottom, 0px));
+    left: max(4px, env(safe-area-inset-left, 0px));
+    width: 96px;
+  }
+}
+/* ---- REN: クリックで反応して消える ---- */
+#ren .ren-hit {
+  /* 体のあたりだけ押せるように（透明な余白は押せない） */
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  top: 4%;
+  bottom: 4%;
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+#ren.is-poof .ren-hit {
+  pointer-events: none;
+}
+#ren.is-poof .ren-imgs,
+#ren.is-poof svg,
+#ren.is-poof .ren-canvas {
+  transform-origin: 50% 85%;
+  animation: renPoof 0.8s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+#ren.is-poof .ren-shadow {
+  transition: opacity 0.3s ease;
+  opacity: 0 !important;
+}
+@keyframes renPoof {
+  0% {
+    transform: none;
+    opacity: 1;
+  }
+  18% {
+    transform: translateY(2%) scale(1.08, 0.9);
+  }
+  40% {
+    transform: translateY(-16%) scale(0.94, 1.08) rotate(-5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-34%) scale(0.2) rotate(14deg);
+    opacity: 0;
+  }
+}
+#ren .ren-spark {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 2px;
+  opacity: 0;
+  transform: rotate(45deg) scale(0);
+  animation: renSpark 0.75s ease-out forwards;
+}
+@keyframes renSpark {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(45deg) scale(0.2);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) rotate(225deg) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #ren.is-poof .ren-imgs,
+  #ren.is-poof svg,
+  #ren.is-poof .ren-canvas {
+    animation: none;
+  }
+  #ren.is-poof {
+    opacity: 0;
+  }
+  #ren .ren-spark {
+    display: none;
+  }
+}
+/* REN は右側に（左より余白があるため / 2026-10-25） */
+#ren,
+#ren.is-img {
+  left: auto;
+  right: max(8px, env(safe-area-inset-right, 0px));
+}
+@media (max-width: 767px) {
+  #ren,
+  #ren.is-img {
+    left: auto;
+    right: max(4px, env(safe-area-inset-right, 0px));
+  }
+}
+/* 調整パネルは REN と重ならないよう左下へ */
+#renPanel {
+  right: auto;
+  left: max(12px, env(safe-area-inset-left, 0px));
+}

@@ -127,6 +127,16 @@ window.RENEL_WORKS = {
 
   works: [
     {
+      id: "my-gang-cat",
+      title: "My Gang Cat",
+      credit: "solo",
+      year: "2026",
+      kind: "Short Film",
+      desc: "",
+      hue: 30, // TODO: サムネ画像をもらったら poster に差し替え
+      video: { type: "link", url: "https://app.tapnow.ai/home/taptv/video/c3f0a246-fe7d-4031-a15b-348efd8078df", label: "TapNow で見る" },
+    },
+    {
       id: "our-times",
       title: "OUR TIMES",
       credit: "unit",
